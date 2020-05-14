@@ -1,0 +1,683 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#"
+     xml:base="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detects -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detects"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detectsParking -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detectsParking">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detects"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#ParkingSensor"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Parking"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detectsPeople -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detectsPeople">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detects"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#CrowdSensor"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#generates -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#generates">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Environment"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Object"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#has -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#has">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasAsset -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasAsset">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#has"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Device"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Camera"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasInside -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasInside">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Noise"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Parking"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Temperature"/>
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasInside"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Sensor"/>
+            </owl:Restriction>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasLocation -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasLocation">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#has"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#City"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasOS -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasOS">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#has"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Device"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#OperatingSystem"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasProfile -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#hasProfile">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#has"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#User"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#UserProfile"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#isRenderedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#isRenderedIn">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Object"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Position"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#is_in -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#is_in">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#measureDecibels -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#measureDecibels">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detects"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#NoiseSensor"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Noise"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#performs -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#performs">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#User"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Input"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#playsIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#playsIn">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Artist"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Concert"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Party"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#pointsTo -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#pointsTo">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Camera"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#represents -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#represents">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#EventModel"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#sensesTemperature -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#sensesTemperature">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#detects"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#TemperatureSensor"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Temperature"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#shows -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#shows">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Camera"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Environment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#talks -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#talks">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Speaker"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Conference"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#uses -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#uses">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#User"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Device"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#age -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#age">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#User"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#decibels -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#decibels">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Noise"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#degreesCelsius -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#degreesCelsius">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Temperature"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#gender -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#gender">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#User"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#isFree -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#isFree">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Parking"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#latitude -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#latitude">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#longitude -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#longitude">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#name -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#name">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#City"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#photo -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#photo">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#UserProfile"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#base64Binary"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#radious -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#radious">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#rotation -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#rotation">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Device"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#text -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#text">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Text"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#username -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#username">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#User"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#website -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#website">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Artist"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Speaker"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#x_value -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#x_value">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Position"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#y_value -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#y_value">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Position"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#z_value -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#z_value">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Position"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Artist -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Artist">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Camera -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Camera"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#City -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#City"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Click -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Click">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Input"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Voice"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Concert -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Concert">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Conference -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Conference">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#CrowdSensor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#CrowdSensor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Sensor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Device -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Device"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#EventModel -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#EventModel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Model"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Input -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Input"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Noise -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Noise"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#NoiseSensor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#NoiseSensor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Sensor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Object -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Object"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#OperatingSystem -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#OperatingSystem"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Parking -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Parking"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#ParkingSensor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#ParkingSensor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Sensor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Party -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Party">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Sensor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Sensor"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Speaker -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Speaker">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Temperature -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Temperature"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#TemperatureSensor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#TemperatureSensor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Sensor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Text -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Text">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Object"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Model"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#User -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#User">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#UserProfile -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#UserProfile"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Voice -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Voice">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Input"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Environment -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Environment"/>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Model -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Model">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Position -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Position"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Camera"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#City"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Device"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Event"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Input"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Location"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Noise"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Object"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#OperatingSystem"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Parking"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Person"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Sensor"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Temperature"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#UserProfile"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Environment"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#3D_Position"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Concert"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Conference"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/root/ontologies/2020/4/ar-iot-edgecomputing#Party"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
