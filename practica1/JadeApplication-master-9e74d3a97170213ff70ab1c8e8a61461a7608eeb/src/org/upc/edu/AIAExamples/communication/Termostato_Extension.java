@@ -14,7 +14,7 @@ import jade.proto.AchieveREInitiator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Termostato_Extension extends Agent{
+public class Termostato_Extension extends Agent {
 
     AID Termometre;
 
