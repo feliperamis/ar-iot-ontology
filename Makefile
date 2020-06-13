@@ -1,8 +1,8 @@
 #!/bin/sh
 
 compile:
-	javac -cp lib/jade.jar -d out/ -sourcepath code/ code/agents/*.java
-	javac -cp lib/jade.jar -d out/ -sourcepath code/ code/domain/*.java
+	javac -cp lib/jade.jar -d out/ -sourcepath code/ code/src/agents/*.java
+	javac -cp lib/jade.jar -d out/ -sourcepath code/ code/src/domain/*.java
 
 gui:
 	java -cp lib/jade.jar:out/ jade.Boot -gui -local-host 127.0.0.1
