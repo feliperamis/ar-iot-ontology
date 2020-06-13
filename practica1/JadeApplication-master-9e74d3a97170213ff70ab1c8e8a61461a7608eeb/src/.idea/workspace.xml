@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="462794bf-7a34-4c7c-a547-a51e449afabf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../.idea/ar-iot-ontology.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../catalog-v001.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../catalog-v001.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../APDescription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../APDescription.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MTPs-Main-Container.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../MTPs-Main-Container.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/upc/edu/AIAExamples/communication/Termostato_Extension.java" beforeDir="false" afterPath="$PROJECT_DIR$/org/upc/edu/AIAExamples/communication/Termostato_Extension.java" afterDir="false" />
-    </list>
+    <list default="true" id="462794bf-7a34-4c7c-a547-a51e449afabf" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
