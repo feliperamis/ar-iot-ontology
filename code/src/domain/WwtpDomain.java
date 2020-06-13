@@ -1,10 +1,10 @@
-package org.upc.edu;
+package domain;
 
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class WwtpDomain {
+public class WwtpDomain {
 
     private static WwtpDomain domain;
 

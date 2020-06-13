@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ar-iot-ontology.iml" filepath="$PROJECT_DIR$/.idea/ar-iot-ontology.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/code.iml" filepath="$PROJECT_DIR$/code/code.iml" />
     </modules>
   </component>
 </project>

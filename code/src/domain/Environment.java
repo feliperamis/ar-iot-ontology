@@ -1,4 +1,4 @@
-    package edu.upc.fib.sid;
+    package domain;
 
 import jade.core.AID;
 import jade.core.Agent;

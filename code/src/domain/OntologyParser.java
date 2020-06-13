@@ -1,4 +1,4 @@
-package edu.upc.fib.sid;
+package domain;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
