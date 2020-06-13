@@ -1,4 +1,7 @@
-    package domain;
+// Leer informacion de sensores
+// Responder peticiones Device
+
+package domain;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -11,8 +14,11 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.proto.AchieveREResponder;
 import jade.util.leap.Iterator;
 
+import java.util.HashMap;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 public class Environment extends Agent {
@@ -30,6 +36,8 @@ public class Environment extends Agent {
     
     private float currentVolume = WATER_RECEIVED_VOLUME;  // Volume in m3
     private float currentConcentration = WATER_RECEIVED_SOLIDS_CONCENTRATION;  // Concentration in g/m3
+
+    private HashMap<String, String> sensorData = new HashMap<>();
     
     // DEBUG
     private float illegalDischargesDetected = 0;
@@ -91,43 +99,71 @@ public class Environment extends Agent {
                 }
             }
         });
-        final CyclicBehaviour requestResponder = new CyclicBehaviour(this) {
+//        final CyclicBehaviour requestResponder = new CyclicBehaviour(this) {
+//            @Override
+//            public void action() {
+//                final ACLMessage request = Environment.this.blockingReceive(mt);
+//                final AID sender = request.getSender();
+//                final ACLMessage reply = request.createReply();
+//                try {
+//                    final DFAgentDescription desc = new DFAgentDescription();
+//                    desc.setName(sender);
+//                    final DFAgentDescription[] search = DFService.search(Environment.this, getDefaultDF(), desc);
+//                    final Iterator services = search[0].getAllServices();
+//                    final ServiceDescription service = (ServiceDescription) services.next();
+//                    String content = request.getContent();
+//                    String[] contentArray = content.split(" ");
+//                    float volumeDischarged = Float.valueOf(contentArray[2]);
+//                    float concentrationDischarged = Float.valueOf(contentArray[4].replace(")", ""));
+//                    if (service.getType().equals("Industry") && 100 * Math.random() < CHANCE_OF_DETECTING_ILLEGAL_DISCHARGE) {
+//                        // DEBUG
+//                        illegalDischargesDetected += 1;
+//                        //
+//                        reply.setPerformative(ACLMessage.REQUEST);
+//                        reply.setContent("(sanction :cost " + volumeDischarged * SANCTION_PER_TON_DISCHARGED + ")");
+//                    } else {
+//                        reply.setPerformative(ACLMessage.INFORM);
+//                    }
+//                    Environment.this.send(reply);
+//                    float currentMassOfPollutant = currentVolume * currentConcentration;  // Mass in g
+//                    float massOfPollutantDischarged = volumeDischarged * concentrationDischarged;  // Mass in g
+//                    float totalMassOfPollutant = currentMassOfPollutant + massOfPollutantDischarged;  // Mass in g
+//                    currentVolume += volumeDischarged;  // Volume in m3
+//                    currentConcentration = totalMassOfPollutant / currentVolume;  // Concentration in g/m3
+//                } catch (FIPAException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+        final CyclicBehaviour receiveSensorData = new CyclicBehaviour(this) {
             @Override
             public void action() {
-                final ACLMessage request = Environment.this.blockingReceive(mt);
-                final AID sender = request.getSender();
-                final ACLMessage reply = request.createReply();
-                try {
-                    final DFAgentDescription desc = new DFAgentDescription();
-                    desc.setName(sender);
-                    final DFAgentDescription[] search = DFService.search(Environment.this, getDefaultDF(), desc);
-                    final Iterator services = search[0].getAllServices();
-                    final ServiceDescription service = (ServiceDescription) services.next();
-                    String content = request.getContent();
-                    String[] contentArray = content.split(" ");
-                    float volumeDischarged = Float.valueOf(contentArray[2]);
-                    float concentrationDischarged = Float.valueOf(contentArray[4].replace(")", ""));
-                    if (service.getType().equals("Industry") && 100 * Math.random() < CHANCE_OF_DETECTING_ILLEGAL_DISCHARGE) {
-                        // DEBUG
-                        illegalDischargesDetected += 1;
-                        //
-                        reply.setPerformative(ACLMessage.REQUEST);
-                        reply.setContent("(sanction :cost " + volumeDischarged * SANCTION_PER_TON_DISCHARGED + ")");
-                    } else {
-                        reply.setPerformative(ACLMessage.INFORM);
-                    }
-                    Environment.this.send(reply);
-                    float currentMassOfPollutant = currentVolume * currentConcentration;  // Mass in g
-                    float massOfPollutantDischarged = volumeDischarged * concentrationDischarged;  // Mass in g
-                    float totalMassOfPollutant = currentMassOfPollutant + massOfPollutantDischarged;  // Mass in g
-                    currentVolume += volumeDischarged;  // Volume in m3
-                    currentConcentration = totalMassOfPollutant / currentVolume;  // Concentration in g/m3
-                } catch (FIPAException e) {
-                    e.printStackTrace();
+                ACLMessage message = myAgent.receive();
+                if (message != null) {
+                    String msg = message.getContent();
+                    AID sender = message.getSender();
+                    String ns = sender.getName();
+                    sensorData.put(ns, msg);
+                } else {
+                    block();
                 }
             }
         };
-        parallelBehaviour.addSubBehaviour(requestResponder);
+        parallelBehaviour.addSubBehaviour(receiveSensorData);
+
+        final AchieveREResponder informDevice = new AchieveREResponder(this, mt){
+            protected ACLMessage prepareResultNotification (ACLMessage request, ACLMessage response){
+                String msg = "";
+                for(String key: sensorData.keySet()){
+                    msg = msg + '\n' + key + ": " + sensorData.get(key);
+                }
+                ACLMessage informDone = request.createReply();
+                informDone.setPerformative(ACLMessage.INFORM);
+                informDone.setContent(msg);
+                return informDone;
+            }
+        };
+        parallelBehaviour.addSubBehaviour(informDevice);
 
         this.addBehaviour(parallelBehaviour);
     }
