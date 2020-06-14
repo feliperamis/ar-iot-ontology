@@ -16,14 +16,12 @@ public class Device extends Agent {
     //AID Termostat;
 
     public static final Logger logger = Logger.getLogger("Device");
-    private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
-
-    public Device() {
-    }
+    //private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
 
     protected void setup() {
+        System.out.println("hola");
         this.logger.info("Dispositivo iniciado");
-        this.logger.info(DOMAIN.toString());
+        //this.logger.info(DOMAIN.toString());
     }
 
     public class SendMessageTickerBehaviour extends TickerBehaviour {
