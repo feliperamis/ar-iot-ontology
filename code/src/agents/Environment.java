@@ -1,7 +1,7 @@
 // Leer informacion de sensores
 // Responder peticiones Device
 
-package domain;
+package agents;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -12,6 +12,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
+import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.AchieveREResponder;
@@ -25,17 +26,17 @@ public class Environment extends Agent {
 
     private static final Logger LOGGER = Logger.getLogger("Environment");
 
-    private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
-    private static final int TIME_UNIT = DOMAIN.getTimeUnit();  // Time in s
-
-    private final float CHANCE_OF_DETECTING_ILLEGAL_DISCHARGE = DOMAIN.getChanceOfDetectingIllegalDischarge();  // Chance in %
-    private final float RELEASED_WATER_PER_TIME_UNIT = DOMAIN.getReleasedWaterPerTimeUnit();  // Volume in m3
-    private final int SANCTION_PER_TON_DISCHARGED = DOMAIN.getSanctionPerTonDischarged();  // Monetary units per ton
-    private final float WATER_RECEIVED_SOLIDS_CONCENTRATION = DOMAIN.getWaterReceivedSolidsConcentration();  // Concentration in g/m3
-    private final float WATER_RECEIVED_VOLUME = DOMAIN.getWaterReceivedVolume();  // Volume in m3
-    
-    private float currentVolume = WATER_RECEIVED_VOLUME;  // Volume in m3
-    private float currentConcentration = WATER_RECEIVED_SOLIDS_CONCENTRATION;  // Concentration in g/m3
+//    private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
+//    private static final int TIME_UNIT = DOMAIN.getTimeUnit();  // Time in s
+//
+//    private final float CHANCE_OF_DETECTING_ILLEGAL_DISCHARGE = DOMAIN.getChanceOfDetectingIllegalDischarge();  // Chance in %
+//    private final float RELEASED_WATER_PER_TIME_UNIT = DOMAIN.getReleasedWaterPerTimeUnit();  // Volume in m3
+//    private final int SANCTION_PER_TON_DISCHARGED = DOMAIN.getSanctionPerTonDischarged();  // Monetary units per ton
+//    private final float WATER_RECEIVED_SOLIDS_CONCENTRATION = DOMAIN.getWaterReceivedSolidsConcentration();  // Concentration in g/m3
+//    private final float WATER_RECEIVED_VOLUME = DOMAIN.getWaterReceivedVolume();  // Volume in m3
+//
+//    private float currentVolume = WATER_RECEIVED_VOLUME;  // Volume in m3
+//    private float currentConcentration = WATER_RECEIVED_SOLIDS_CONCENTRATION;  // Concentration in g/m3
 
     private HashMap<String, String> sensorData = new HashMap<>();
     
@@ -61,44 +62,44 @@ public class Environment extends Agent {
 
         final ParallelBehaviour parallelBehaviour = new ParallelBehaviour(this, ParallelBehaviour.WHEN_ALL);
 
-        final TickerBehaviour tickerBehaviour = new TickerBehaviour(this, TIME_UNIT * 1000) {
-            @Override
-            protected void onTick() {
-                
-                LOGGER.info("ENVIRONMENT[currentVolume]: " + currentVolume);
-                
-                float currentMassOfPollutant = currentVolume * currentConcentration;  // Mass in g
-                
-                currentVolume += WATER_RECEIVED_VOLUME;  // Volume in m3
-                float massOfPollutantReceived = WATER_RECEIVED_VOLUME * WATER_RECEIVED_SOLIDS_CONCENTRATION;  // Mass in g
-                
-                float totalMassOfPollutant = currentMassOfPollutant + massOfPollutantReceived;  // Mass in g
-                
-                currentConcentration = totalMassOfPollutant / currentVolume;  // Concentration in g/m3
-                
-                currentVolume = WATER_RECEIVED_VOLUME;  // Discharge the rest, otherwise it overflows
-                
-                LOGGER.info("ENVIRONMENT[currentConcentration]: " + currentConcentration);
-                // DEBUG
-                LOGGER.info("ENVIRONMENT[illegalDischargesDetected]: " + illegalDischargesDetected);
-                //
-            }
-        };
-        parallelBehaviour.addSubBehaviour(tickerBehaviour);
-
-        final MessageTemplate mt = new MessageTemplate(new MessageTemplate.MatchExpression() {
-            @Override
-            public boolean match(ACLMessage msg) {
-                try {
-                    String content = msg.getContent();
-                    String[] contentArray = content.split(" ");
-                    String contentFirst = contentArray[0];
-                    return contentFirst.equals("(discharge");
-                } catch (Exception ex) {
-                    return false;
-                }
-            }
-        });
+//        final TickerBehaviour tickerBehaviour = new TickerBehaviour(this, TIME_UNIT * 1000) {
+//            @Override
+//            protected void onTick() {
+//
+//                LOGGER.info("ENVIRONMENT[currentVolume]: " + currentVolume);
+//
+//                float currentMassOfPollutant = currentVolume * currentConcentration;  // Mass in g
+//
+//                currentVolume += WATER_RECEIVED_VOLUME;  // Volume in m3
+//                float massOfPollutantReceived = WATER_RECEIVED_VOLUME * WATER_RECEIVED_SOLIDS_CONCENTRATION;  // Mass in g
+//
+//                float totalMassOfPollutant = currentMassOfPollutant + massOfPollutantReceived;  // Mass in g
+//
+//                currentConcentration = totalMassOfPollutant / currentVolume;  // Concentration in g/m3
+//
+//                currentVolume = WATER_RECEIVED_VOLUME;  // Discharge the rest, otherwise it overflows
+//
+//                LOGGER.info("ENVIRONMENT[currentConcentration]: " + currentConcentration);
+//                // DEBUG
+//                LOGGER.info("ENVIRONMENT[illegalDischargesDetected]: " + illegalDischargesDetected);
+//                //
+//            }
+//        };
+//        parallelBehaviour.addSubBehaviour(tickerBehaviour);
+//
+//        final MessageTemplate mt = new MessageTemplate(new MessageTemplate.MatchExpression() {
+//            @Override
+//            public boolean match(ACLMessage msg) {
+//                try {
+//                    String content = msg.getContent();
+//                    String[] contentArray = content.split(" ");
+//                    String contentFirst = contentArray[0];
+//                    return contentFirst.equals("(discharge");
+//                } catch (Exception ex) {
+//                    return false;
+//                }
+//            }
+//        });
 //        final CyclicBehaviour requestResponder = new CyclicBehaviour(this) {
 //            @Override
 //            public void action() {
@@ -151,6 +152,7 @@ public class Environment extends Agent {
         };
         parallelBehaviour.addSubBehaviour(receiveSensorData);
 
+        MessageTemplate mt = AchieveREResponder.createMessageTemplate((FIPANames.InteractionProtocol.FIPA_REQUEST));
         final AchieveREResponder informDevice = new AchieveREResponder(this, mt){
             protected ACLMessage prepareResultNotification (ACLMessage request, ACLMessage response){
                 String msg = "";
