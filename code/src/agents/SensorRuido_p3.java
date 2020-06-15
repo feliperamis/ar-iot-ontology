@@ -1,6 +1,9 @@
 package agents;
 
 
+import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.rdf.model.Property;
+import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
@@ -18,6 +21,33 @@ import java.util.logging.Logger;
  * @author Alvaro Macias
  */
 public class SensorRuido_p3 extends Agent {
+
+    private static final Logger logger = Logger.getLogger("NoiseSensor");
+    private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
+
+    /* Entities */
+    private static final String Entity_Location = "Location";
+    private static final String Entity_NoiseSensor = "NoiseSensor";
+    private static final String Entity_Coverage = "Coverage";
+    private static final String Entity_Output = "Output";
+    private static final String Entity_Quality = "Quality";
+    private static final String Entity_Unit = "Unit";
+
+    /* Object properties */
+    private static final String ObjectProperty_hasOutput = "SensorOutput";
+    private static final String ObjectProperty_hasCoverage = "SensorCoverage";
+    private static final String ObjectProperty_hasQuality = "SensorQuality";
+    private static final String ObjectProperty_hasUnit = "SensorUnit";
+    private static final String ObjectProperty_hasLocation = "SensorLocation";
+
+
+    /* Individuals */
+    private static final String SensorName = "NoiseSensor1";
+    private static final String LocationName = "Place";
+    private static final String CoverageName = "EventHall";
+    private static final String OutputName = "NoiseSensorOutput";
+    private static final String QualityGrade = "NoiseSensorQuality";
+    private static final String UnitType = "NoiseSensorUnit";
 
     AID Environment;
 
@@ -62,6 +92,30 @@ public class SensorRuido_p3 extends Agent {
 
         SendMessageTickerBehaviour Sensor = new SendMessageTickerBehaviour(this, 10000);
         this.addBehaviour(Sensor);
+        this.initSensor();
 
+    }
+
+    private void initSensor() {
+        logger.info("Creating camera and a 3d environment");
+        Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_NoiseSensor, SensorName);
+        Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
+        Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Coverage, CoverageName);
+        Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Output, OutputName);
+        Individual quality = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT,Entity_Quality, QualityGrade);
+        Individual unit = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT,Entity_Unit, UnitType);
+
+        Property hasOutput = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasOutput);
+        Property hasCoverage = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasCoverage);
+        Property hasQuality = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasQuality);
+        Property hasUnit = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasUnit);
+        Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT,ObjectProperty_hasLocation);
+
+
+        crowdSensor.addProperty(hasOutput, output);
+        crowdSensor.addProperty(hasCoverage, coverage);
+        crowdSensor.addProperty(hasQuality, quality);
+        crowdSensor.addProperty(hasUnit, unit);
+        crowdSensor.addProperty(hasLocation, location);
     }
 }
