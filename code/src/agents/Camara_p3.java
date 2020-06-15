@@ -30,6 +30,7 @@ public class Camara_p3 extends Agent {
     private static final String Entity_3dPosition = "3DPosition";
 
     /* Object properties */
+
     private static final String ObjectProperty_cameraRender = "cameraRender";
 
 

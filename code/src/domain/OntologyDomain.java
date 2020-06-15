@@ -18,6 +18,9 @@ public class OntologyDomain {
     public enum OntologyUri {
         ARIOT("http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology"),
         WGS84_POS("http://www.w3.org/2003/01/geo/wgs84_pos"),
+        NETQU("http://purl.org/NET/ssnx/qu/qu"),
+        NETSSN("http://purl.org/NET/ssnx/ssn"),
+        LOA("http://www.load-cnr.it/ontologies/DUL.owl"),
         TERMS("http://purl.org/dc/terms"),
         SKOS("http://www.w3.org/2004/02/skos/core"),
         RDFS("http://www.w3.org/2000/01/rdf-schema"),
