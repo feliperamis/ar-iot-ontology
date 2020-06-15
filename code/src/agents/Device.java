@@ -1,5 +1,6 @@
 package agents;
 
+import com.hp.hpl.jena.ontology.Individual;
 import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
@@ -20,6 +21,16 @@ public class Device extends Agent {
     AID Environment;
     AID Camara;
     private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
+    /* Entities */
+    private static final String Entity_Device = "ARDevice";
+
+    /* Object properties */
+
+
+
+    /* Individuals */
+    private static final String DeviceName = "ARDevice1";
+
 
 
     private class DeviceInitiator extends AchieveREInitiator {
@@ -75,6 +86,12 @@ public class Device extends Agent {
 
         Device.SendMessageTickerBehaviour Dispositivo = new Device.SendMessageTickerBehaviour(this, 10000);
         this.addBehaviour(Dispositivo);
+        initDevice();
+    }
+
+    private void initDevice() {
+        logger.info("Creating AR device");
+        Individual device = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Device, DeviceName);
     }
 
     public class SendMessageTickerBehaviour extends TickerBehaviour {
