@@ -57,10 +57,9 @@ public class SensorRuido_p3 extends Agent {
         }
 
         public void onTick() {
-            int t = (int) (Math.random() * 40) - 10;
             ACLMessage message = new ACLMessage(ACLMessage.INFORM);
             message.addReceiver(Environment);
-            message.setContent(Integer.toString(t));
+            message.setContent(SensorName);
             send(message);
         }
     }
