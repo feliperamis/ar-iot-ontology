@@ -1,6 +1,8 @@
 package agents;
 
 import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.ontology.ObjectProperty;
+import com.hp.hpl.jena.rdf.model.Property;
 import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
@@ -28,6 +30,7 @@ public class Camara_p3 extends Agent {
     private static final String Entity_3dPosition = "3DPosition";
 
     /* Object properties */
+    private static final String ObjectProperty_cameraRender = "cameraRender";
 
 
     /* Individuals */
@@ -70,23 +73,12 @@ public class Camara_p3 extends Agent {
     }
 
     private void initCamera() {
-        /* Check if camera and 3d environment exists */
-        /* Crear un 3d environment */
-        logger.info(DOMAIN.toString());
-        Individual camera = DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, CameraName);
-        if (camera == null) {
-            logger.info ("Es null");
-            camera = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Camera, CameraName);
-            logger.info(Boolean.toString(camera == null));
-            logger.info(camera.toString());
-            logger.info(camera.getURI());
-            logger.info(camera.getOntClass().getURI());
-            logger.info(DOMAIN.getIndividualsByClass(OntologyDomain.OntologyUri.ARIOT, Entity_Camera).toString());
-        } else {
-            logger.info ("No es null");
-            logger.info(camera.toString());
-            logger.info(camera.getURI());
-            logger.info(camera.getOntClass().getURI());
-        }
+        logger.info("Creating camera and a 3d environment");
+        Individual camera = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Camera, CameraName);
+        Individual environment3D = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_3dEnvironment, EnvironmentName);
+        Property cameraRender = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_cameraRender);
+
+        //A camera renders a 3DEnvironment
+        camera.addProperty(cameraRender, environment3D);
     }
 }
