@@ -1,5 +1,6 @@
 package agents;
 
+import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
@@ -18,6 +19,8 @@ public class Device extends Agent {
 
     AID Environment;
     AID Camara;
+    private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
+
 
     private class DeviceInitiator extends AchieveREInitiator {
         public DeviceInitiator(Agent a, ACLMessage mt) {
