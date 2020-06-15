@@ -20,13 +20,14 @@ import java.util.logging.Logger;
 public class Termometro_p3 extends Agent {
 
     AID Environment;
+
     public class SendMessageTickerBehaviour extends TickerBehaviour {
         public SendMessageTickerBehaviour(Agent a, long period) {
             super(a, period);
         }
 
         public void onTick() {
-            int t = (int)(Math.random()*40)-10;
+            int t = (int) (Math.random() * 40) - 10;
             ACLMessage message = new ACLMessage(ACLMessage.INFORM);
             message.addReceiver(Environment);
             message.setContent(Integer.toString(t));
@@ -46,13 +47,13 @@ public class Termometro_p3 extends Agent {
         }
 
         DFAgentDescription busca = new DFAgentDescription();
-        ServiceDescription servicio  = new ServiceDescription();
-        servicio.setType( "Environment" );
+        ServiceDescription servicio = new ServiceDescription();
+        servicio.setType("Environment");
         busca.addServices(servicio);
         Environment = new AID();
         try {
             DFAgentDescription[] result = DFService.search(this, busca);
-            if (result.length>0)
+            if (result.length > 0)
                 Environment = result[0].getName();
         } catch (FIPAException ex) {
             Logger.getLogger(Termometro_p3.class.getName()).log(Level.SEVERE, null, ex);

@@ -3,12 +3,11 @@
 
 package agents;
 
-import domain.WwtpDomain;
+import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.ParallelBehaviour;
-import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -17,17 +16,15 @@ import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.AchieveREResponder;
-import jade.util.leap.Iterator;
 
 import java.util.HashMap;
-import java.util.Vector;
 import java.util.logging.Logger;
 
 public class Environment extends Agent {
 
     private static final Logger LOGGER = Logger.getLogger("Environment");
 
-    private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
+    private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
 //    private static final int TIME_UNIT = DOMAIN.getTimeUnit();  // Time in s
 //
 //    private final float CHANCE_OF_DETECTING_ILLEGAL_DISCHARGE = DOMAIN.getChanceOfDetectingIllegalDischarge();  // Chance in %
@@ -40,7 +37,7 @@ public class Environment extends Agent {
 //    private float currentConcentration = WATER_RECEIVED_SOLIDS_CONCENTRATION;  // Concentration in g/m3
 
     private HashMap<String, String> sensorData = new HashMap<>();
-    
+
     // DEBUG
     private float illegalDischargesDetected = 0;
     //
@@ -154,10 +151,10 @@ public class Environment extends Agent {
         parallelBehaviour.addSubBehaviour(receiveSensorData);
 
         MessageTemplate mt = AchieveREResponder.createMessageTemplate((FIPANames.InteractionProtocol.FIPA_REQUEST));
-        final AchieveREResponder informDevice = new AchieveREResponder(this, mt){
-            protected ACLMessage prepareResultNotification (ACLMessage request, ACLMessage response){
+        final AchieveREResponder informDevice = new AchieveREResponder(this, mt) {
+            protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
                 String msg = "";
-                for(String key: sensorData.keySet()){
+                for (String key : sensorData.keySet()) {
                     msg = msg + '\n' + key + ": " + sensorData.get(key);
                 }
                 ACLMessage informDone = request.createReply();
@@ -169,5 +166,11 @@ public class Environment extends Agent {
         parallelBehaviour.addSubBehaviour(informDevice);
 
         this.addBehaviour(parallelBehaviour);
+    }
+
+    @Override
+    protected void takeDown() {
+        System.out.println("Shutting down environment");
+        DOMAIN.saveOntology();
     }
 }

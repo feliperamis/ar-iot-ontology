@@ -2,7 +2,6 @@ package agents;
 
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -23,7 +22,7 @@ public class Camara_p3 extends Agent {
             super(a, mt);
         }
 
-        protected ACLMessage prepareResultNotification (ACLMessage request, ACLMessage response){
+        protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
             ACLMessage informDone = request.createReply();
             informDone.setPerformative(ACLMessage.INFORM);
             informDone.setContent("Possss toy viendo esto ns aver dime tu");
@@ -36,9 +35,9 @@ public class Camara_p3 extends Agent {
 
         AID df = getDefaultDF();
         DFAgentDescription camara = new DFAgentDescription();
-        ServiceDescription servicio  = new ServiceDescription();
-        servicio.setType( "Camara" );
-        servicio.setName( getLocalName() );
+        ServiceDescription servicio = new ServiceDescription();
+        servicio.setType("Camara");
+        servicio.setName(getLocalName());
         camara.addServices(servicio);
         camara.setName(getAID());
         try {

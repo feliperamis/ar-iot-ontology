@@ -1,13 +1,12 @@
 package agents;
 
-import domain.WwtpDomain;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
-import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import jade.proto.AchieveREInitiator;
@@ -20,10 +19,12 @@ public class Device extends Agent {
     AID Environment;
     AID Camara;
 
-    private class DeviceInitiator extends AchieveREInitiator{
-        public DeviceInitiator(Agent a, ACLMessage mt){super (a,mt);}
+    private class DeviceInitiator extends AchieveREInitiator {
+        public DeviceInitiator(Agent a, ACLMessage mt) {
+            super(a, mt);
+        }
 
-        protected void handleInform(ACLMessage inform){
+        protected void handleInform(ACLMessage inform) {
             ACLMessage message = new ACLMessage(ACLMessage.INFORM);
             message.addReceiver(Camara);
             message.setContent("Proyectame esta");
@@ -47,13 +48,13 @@ public class Device extends Agent {
         }
 
         DFAgentDescription busca = new DFAgentDescription();
-        ServiceDescription servicio  = new ServiceDescription();
-        servicio.setType( "Environment" );
+        ServiceDescription servicio = new ServiceDescription();
+        servicio.setType("Environment");
         busca.addServices(servicio);
         Environment = new AID();
         try {
             DFAgentDescription[] result = DFService.search(this, busca);
-            if (result.length>0)
+            if (result.length > 0)
                 Environment = result[0].getName();
         } catch (FIPAException ex) {
             Logger.getLogger(Device.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,7 +64,7 @@ public class Device extends Agent {
         Camara = new AID();
         try {
             DFAgentDescription[] result = DFService.search(this, busca);
-            if (result.length>0)
+            if (result.length > 0)
                 Camara = result[0].getName();
         } catch (FIPAException ex) {
             Logger.getLogger(Device.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,7 +88,7 @@ public class Device extends Agent {
             ACLMessage request = new ACLMessage(ACLMessage.REQUEST);
             request.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
             request.addReceiver(Environment);
-            myAgent.addBehaviour(new DeviceInitiator(myAgent,request));
+            myAgent.addBehaviour(new DeviceInitiator(myAgent, request));
         }
     }
 }

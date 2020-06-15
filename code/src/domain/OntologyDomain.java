@@ -1,27 +1,24 @@
 package domain;
 
-import agents.Environment;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
 import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WwtpDomain {
+public class OntologyDomain {
 
-    private static WwtpDomain domain;
+    private static OntologyDomain domain;
 
     private enum OntologyUri {
-         ARIOT("http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology"),
+        ARIOT("http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology"),
         WGS84_POS("http://www.w3.org/2003/01/geo/wgs84_pos"),
         TERMS("http://purl.org/dc/terms"),
         SKOS("http://www.w3.org/2004/02/skos/core"),
@@ -34,7 +31,7 @@ public class WwtpDomain {
         XML("http://www.w3.org/XML/1998/namespace"),
         XSD("http://www.w3.org/2001/XMLSchema");
 
-         private String uri;
+        private String uri;
 
         OntologyUri(String uri) {
             this.uri = uri;
@@ -45,12 +42,12 @@ public class WwtpDomain {
         }
     }
 
-    public static WwtpDomain getInstance() {
+    public static OntologyDomain getInstance() {
         if (domain == null) {
             try {
                 domain = OntologyParser.parse();
             } catch (URISyntaxException ex) {
-                Logger.getLogger(WwtpDomain.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OntologyDomain.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -60,14 +57,13 @@ public class WwtpDomain {
     private OntModel model;
 
 
-
     public void setModel(OntModel model) {
         this.model = model;
     }
 
     public List<String> getClasses() {
         List<String> classes = new ArrayList<>();
-        for (OntClass entity: model.listClasses().toList()) {
+        for (OntClass entity : model.listClasses().toList()) {
             classes.add(entity.toString());
         }
 
@@ -85,15 +81,15 @@ public class WwtpDomain {
     public void printPropertiesByClass() {
         System.out.println(model.listIndividuals().toList());
         for (OntClass ontClass : model.listNamedClasses().toList()) {
-            System.out.println( "Class: '" + ontClass.getURI() + "' has properties:");
-            OntClass pizzaClass = model.getOntClass(ontClass.getURI() );
+            System.out.println("Class: '" + ontClass.getURI() + "' has properties:");
+            OntClass pizzaClass = model.getOntClass(ontClass.getURI());
             //List of ontology properties
             for (OntProperty property : ontClass.listDeclaredProperties().toList()) {
-                System.out.println("    · Name :" + property.getLocalName() );
-                System.out.println("        · Domain :" + property.getDomain() );
+                System.out.println("    · Name :" + property.getLocalName());
+                System.out.println("        · Domain :" + property.getDomain());
                 System.out.println("        · Range :" + property.getRange());
-                System.out.println("        · IsData :" + property.isDatatypeProperty() );
-                System.out.println("        · IsObject :" + property.isObjectProperty() );
+                System.out.println("        · IsData :" + property.isDatatypeProperty());
+                System.out.println("        · IsObject :" + property.isObjectProperty());
             }
         }
     }
@@ -112,8 +108,8 @@ public class WwtpDomain {
     public void addInstances(String classUri, String className) {
 
         /* Usarlo como base para añadir nuevos individuos */
-        System.out.println( "   Adding instance to '" + className + "'");
-        OntClass pizzaClass = model.getOntClass(classUri );
+        System.out.println("   Adding instance to '" + className + "'");
+        OntClass pizzaClass = model.getOntClass(classUri);
         Individual particularPizza = pizzaClass.createIndividual("The " + className + " I am eating right now");
         Property nameProperty = model.getProperty("<http://www.co-ode.org/ontologies/pizza/pizza.owl#hasPizzaName>");
         particularPizza.addProperty(nameProperty, "A yummy" + className);
@@ -122,6 +118,14 @@ public class WwtpDomain {
 
     public Object getPropertyValue(Individual individual, Property property, Class objectType) {
         return individual.getPropertyValue(property).as(objectType);
+    }
+
+    public void saveOntology() {
+        try {
+            OntologyParser.releaseOntology(this.model);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error file not found: " + e.getMessage());
+        }
     }
 
     /*
