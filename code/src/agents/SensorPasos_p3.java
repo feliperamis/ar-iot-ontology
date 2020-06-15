@@ -102,7 +102,8 @@ public class SensorPasos_p3 extends Agent {
         Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Coverage, CoverageName);
         Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Output, OutputName);
         Individual quality = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT,Entity_Quality, QualityGrade);
-        Individual unit = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT,Entity_Quality, UnitType);
+        Individual unit = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT,Entity_Unit, UnitType);
+
         Property hasOutput = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasOutput);
         Property hasCoverage = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasCoverage);
         Property hasQuality = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasQuality);
