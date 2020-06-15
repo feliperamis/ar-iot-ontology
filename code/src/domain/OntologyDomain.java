@@ -5,6 +5,7 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
 import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.Resource;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -118,6 +119,11 @@ public class OntologyDomain {
 
     public Object getPropertyValue(Individual individual, Property property, Class objectType) {
         return individual.getPropertyValue(property).as(objectType);
+    }
+
+    public Individual createIndividual(OntologyUri ontologyUri, String className, String individualName) {
+        OntClass entity = model.getOntClass(getUri(ontologyUri, className));
+        return entity.createIndividual(individualName);
     }
 
     public void saveOntology() {

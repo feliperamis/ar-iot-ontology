@@ -1,5 +1,6 @@
 package agents;
 
+import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -17,6 +18,8 @@ import java.util.logging.Logger;
 
 public class Camara_p3 extends Agent {
 
+    private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
+
     private class CamaraResponder extends AchieveREResponder {
         public CamaraResponder(Agent a, MessageTemplate mt) {
             super(a, mt);
@@ -28,7 +31,6 @@ public class Camara_p3 extends Agent {
             informDone.setContent("Possss toy viendo esto ns aver dime tu");
             return informDone;
         }
-
     }
 
     protected void setup() {
@@ -48,5 +50,11 @@ public class Camara_p3 extends Agent {
 
         MessageTemplate mt = AchieveREResponder.createMessageTemplate((FIPANames.InteractionProtocol.FIPA_REQUEST));
         this.addBehaviour(new CamaraResponder(this, mt));
+        this.initCamera();
+    }
+
+    private void initCamera() {
+        /* Crear un 3d environment */
+
     }
 }
