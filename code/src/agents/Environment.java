@@ -3,6 +3,7 @@
 
 package agents;
 
+import domain.WwtpDomain;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -26,7 +27,7 @@ public class Environment extends Agent {
 
     private static final Logger LOGGER = Logger.getLogger("Environment");
 
-//    private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
+    private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
 //    private static final int TIME_UNIT = DOMAIN.getTimeUnit();  // Time in s
 //
 //    private final float CHANCE_OF_DETECTING_ILLEGAL_DISCHARGE = DOMAIN.getChanceOfDetectingIllegalDischarge();  // Chance in %

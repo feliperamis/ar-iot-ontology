@@ -35,7 +35,6 @@ public class Device extends Agent {
     //private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
 
     protected void setup() {
-        System.out.println("hola");
         this.logger.info("Dispositivo iniciado");
         //this.logger.info(DOMAIN.toString());
         AID df = getDefaultDF();
