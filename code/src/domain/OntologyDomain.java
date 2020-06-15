@@ -1,9 +1,6 @@
 package domain;
 
-import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntProperty;
+import com.hp.hpl.jena.ontology.*;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 
@@ -18,7 +15,7 @@ public class OntologyDomain {
 
     private static OntologyDomain domain;
 
-    private enum OntologyUri {
+    public enum OntologyUri {
         ARIOT("http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology"),
         WGS84_POS("http://www.w3.org/2003/01/geo/wgs84_pos"),
         TERMS("http://purl.org/dc/terms"),
@@ -57,6 +54,11 @@ public class OntologyDomain {
 
     private OntModel model;
 
+
+    @Override
+    public String toString() {
+        return "Domain is instantiated, classes: " + getClasses();
+    }
 
     public void setModel(OntModel model) {
         this.model = model;
@@ -97,13 +99,14 @@ public class OntologyDomain {
 
     public List<Individual> getIndividualsByClass(OntologyUri ontologyUri, String className) {
         /* Mejor una consulta sparql */
-        for (OntClass entity : model.listNamedClasses().toList()) {
-            if (entity.getURI() == getUri(ontologyUri, className)) {
-                return model.listIndividuals(entity).toList();
+        List<Individual> individualsInClass = new ArrayList<>();
+
+        for (Individual individual : model.listIndividuals().toList()) {
+            if (individual.hasOntClass(getUri(ontologyUri, className))) {
+                individualsInClass.add(individual);
             }
         }
-        //Devolver lista vacía sino
-        return new ArrayList<Individual>();
+        return individualsInClass;
     }
 
     public void addInstances(String classUri, String className) {
@@ -114,7 +117,6 @@ public class OntologyDomain {
         Individual particularPizza = pizzaClass.createIndividual("The " + className + " I am eating right now");
         Property nameProperty = model.getProperty("<http://www.co-ode.org/ontologies/pizza/pizza.owl#hasPizzaName>");
         particularPizza.addProperty(nameProperty, "A yummy" + className);
-
     }
 
     public Object getPropertyValue(Individual individual, Property property, Class objectType) {
@@ -122,8 +124,18 @@ public class OntologyDomain {
     }
 
     public Individual createIndividual(OntologyUri ontologyUri, String className, String individualName) {
-        OntClass entity = model.getOntClass(getUri(ontologyUri, className));
-        return entity.createIndividual(individualName);
+        Individual individual = model.getIndividual(getUri(ontologyUri, individualName));
+        if (individual == null) {
+            OntClass entity = model.getOntClass(getUri(ontologyUri, className));
+            individual = entity.createIndividual(getUri(ontologyUri, individualName));
+        }
+
+
+        return individual;
+    }
+
+    public Individual getIndividual(OntologyUri ontologyUri, String individualName) {
+        return model.getIndividual(getUri(ontologyUri, individualName));
     }
 
     public void saveOntology() {

@@ -12,8 +12,11 @@ compileold:
 gui:
 	java -cp ".:code/lib/*:out/SmartCity.jar" jade.Boot -gui -local-host 127.0.0.1
 
-test:
-	java -cp ".:code/lib/*:out/SmartCity.jar" jade.Boot -local-host 127.0.0.1 -container dd2:agents.Device
+init:
+	java -cp ".:code/lib/*:out/SmartCity.jar" jade.Boot -local-host 127.0.0.1 -container Environment:agents.Environment
+
+agents:
+	java -cp ".:code/lib/*:out/SmartCity.jar" jade.Boot -local-host 127.0.0.1 -container Camera:agents.Camara_p3
 
 # Aquí pon los agentes
 
