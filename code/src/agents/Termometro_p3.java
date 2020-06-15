@@ -34,11 +34,11 @@ public class Termometro_p3 extends Agent {
     private static final String Entity_Unit = "Unit";
 
     /* Object properties */
-    private static final String ObjectProperty_hasOutput = "SensorOutput";
-    private static final String ObjectProperty_hasCoverage = "SensorCoverage";
-    private static final String ObjectProperty_hasQuality = "SensorQuality";
-    private static final String ObjectProperty_hasUnit = "SensorUnit";
-    private static final String ObjectProperty_hasLocation = "SensorLocation";
+    private static final String ObjectProperty_hasOutput = "hasOutput";
+    private static final String ObjectProperty_hasCoverage = "hasCoverage";
+    private static final String ObjectProperty_hasQuality = "hasQuality";
+    private static final String ObjectProperty_hasUnit = "hasUnit";
+    private static final String ObjectProperty_hasLocation = "hasLocation";
 
 
     /* Individuals */
