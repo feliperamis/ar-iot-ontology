@@ -2,7 +2,6 @@ package agents;
 
 
 import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.rdf.model.Property;
 import domain.OntologyDomain;
 import jade.core.AID;
@@ -33,16 +32,19 @@ public class SensorRuido_p3 extends Agent {
     private static final String Entity_Location = "Location";
     private static final String Entity_NoiseSensor = "NoiseSensor";
     private static final String Entity_Coverage = "Coverage";
-    private static final String Entity_Output = "Output";
+    private static final String Entity_Quantity = "QuantityKind";
     private static final String Entity_Quality = "Quality";
     private static final String Entity_Unit = "Unit";
 
     /* Object properties */
-    private static final String ObjectProperty_hasOutput = "hasOutput";
+    private static final String ObjectProperty_hasQuantityKind = "hasQuantityKind";
     private static final String ObjectProperty_hasCoverage = "hasCoverage";
     private static final String ObjectProperty_hasQuality = "hasQuality";
     private static final String ObjectProperty_hasUnit = "hasUnit";
     private static final String ObjectProperty_hasLocation = "hasLocation";
+
+    /* Data properties */
+    private static final String DataProperty_quantityValue = "quantityValue";
 
 
     /* Individuals */
@@ -51,7 +53,7 @@ public class SensorRuido_p3 extends Agent {
     private static final String CoverageName = "EventHall";
     private static final String OutputName = "NoiseSensorOutput";
     private static final String QualityGrade = "NoiseSensorQuality";
-    private static final String UnitType = "NoiseSensorUnit";
+    private static final String UnitType = "Decibels";
 
     AID Environment;
 
@@ -63,6 +65,12 @@ public class SensorRuido_p3 extends Agent {
         public void onTick() {
             ACLMessage message = new ACLMessage(ACLMessage.INFORM);
             message.addReceiver(Environment);
+
+            Property hasQuantity = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasQuantityKind);
+            Property quantityValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_quantityValue);
+            Individual quantity = sensorRuido.getPropertyValue(hasQuantity).as(Individual.class);
+            quantity.setPropertyValue(quantityValue, DOMAIN.createLiteral(Math.abs(new Random().nextFloat() * 35)));
+
             message.setContent(SensorName);
             send(message);
         }
@@ -93,28 +101,28 @@ public class SensorRuido_p3 extends Agent {
         }
 
 
-        SendMessageTickerBehaviour Sensor = new SendMessageTickerBehaviour(this, 10000);
+        SendMessageTickerBehaviour Sensor = new SendMessageTickerBehaviour(this, 7000);
         this.addBehaviour(Sensor);
         this.initSensor();
-
     }
 
     private void initSensor() {
         sensorRuido = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_NoiseSensor, SensorName);
+        logger.info("NoiseSensor generated at " + LocationName);
 
         Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
         Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.IOTLITE, Entity_Coverage, CoverageName);
-        Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.OCLC, Entity_Output, OutputName);
+        Individual quantity = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETQU, Entity_Quantity, OutputName);
         Individual quality = DOMAIN.createIndividual(OntologyDomain.OntologyUri.LOA,Entity_Quality, QualityGrade);
         Individual unit = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETQU,Entity_Unit, UnitType);
 
-        Property hasOutput = DOMAIN.getProperty(OntologyDomain.OntologyUri.OCLC, ObjectProperty_hasOutput);
+        Property hasQuantity = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasQuantityKind);
         Property hasCoverage = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasCoverage);
         Property hasQuality = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA, ObjectProperty_hasQuality);
         Property hasUnit = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasUnit);
         Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA,ObjectProperty_hasLocation);
 
-        sensorRuido.addProperty(hasOutput, output);
+        sensorRuido.addProperty(hasQuantity, quantity);
         sensorRuido.addProperty(hasCoverage, coverage);
         sensorRuido.addProperty(hasQuality, quality);
         sensorRuido.addProperty(hasUnit, unit);

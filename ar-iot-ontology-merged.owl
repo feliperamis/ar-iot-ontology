@@ -345,6 +345,15 @@ above the local reference ellipsoid).</rdfs:comment>
     
 
 
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#quantityValue -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#quantityValue">
+        <rdfs:domain rdf:resource="http://purl.org/NET/ssnx/qu/qu#QuantityKind"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#rotation -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#rotation">

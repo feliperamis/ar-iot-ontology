@@ -39,9 +39,9 @@ public class MainContainer {
         final AgentController camera = container.createNewAgent("Camera", Camara_p3.class.getName(), new Object[] {cameraName});
         final AgentController device = container.createNewAgent("Device", Device.class.getName(), new Object[] {cameraName});
         // TODO: Los sensores crean las unidades con el mismo nombre de individuo (debería tener algo random)
-        //final AgentController sensorRuido = container.createNewAgent("SensorRuido", SensorRuido_p3.class.getName(), null);
-        //final AgentController sensorPasos = container.createNewAgent("SensorPasos", SensorPasos_p3.class.getName(), null);
-        //final AgentController sensorTemperatura = container.createNewAgent("SensorTemperatura", Termometro_p3.class.getName(), null);
+        final AgentController sensorRuido = container.createNewAgent("SensorRuido", SensorRuido_p3.class.getName(), null);
+        final AgentController sensorPasos = container.createNewAgent("SensorPasos", SensorPasos_p3.class.getName(), null);
+        final AgentController sensorTemperatura = container.createNewAgent("SensorTemperatura", Termometro_p3.class.getName(), null);
 /*
         sniffer.start();
 
@@ -52,11 +52,27 @@ public class MainContainer {
             ex.printStackTrace();
         }
 */
-        environment.start();
-        camera.start();
+
+        /* We make a sleep between agent start to avoid concurrent modifications on the ontology model */
+        try {
+            environment.start();
+            Thread.sleep(1);
+
+            camera.start();
+            Thread.sleep(1);
+
+            sensorPasos.start();
+            Thread.sleep(1);
+
+            sensorRuido.start();
+            Thread.sleep(1);
+
+            sensorTemperatura.start();
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         device.start();
-        //sensorPasos.start();
-        //sensorRuido.start();
-        //sensorTemperatura.start();
     }
 }

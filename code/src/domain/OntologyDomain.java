@@ -7,6 +7,7 @@ import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.sparql.core.ResultBinding;
 import model.Event;
+import model.SensorUnit;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -187,6 +188,44 @@ public class OntologyDomain {
         }
         qe.close() ;
         return eventsInLocation;
+    }
+
+    public ArrayList<SensorUnit> querySensorUnitForLocation(String locationName) {
+        String queryString  = "PREFIX ariot: <http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#>\n"
+        + "PREFIX oclc: <http://purl.oclc.org/NET/ssnx/ssn#>\n"
+        + "PREFIX netqu: <http://purl.org/NET/ssnx/qu/qu#>\n"
+        + "PREFIX iotlite: <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#>\n"
+        + "PREFIX loa: <http://www.loa-cnr.it/ontologies/DUL.owl#>\n"
+        + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+        + "SELECT *\n"
+        + "where {\n"
+        + "?SensorName a ?SensorType.\n"
+        + "?SensorType rdfs:subClassOf oclc:SensingDevice.\n"
+        + "?SensorName loa:hasLocation ariot:" + locationName + ".\n"
+        + "?SensorName iotlite:hasQuantityKind ?Quantity.\n"
+        + "?SensorName iotlite:hasUnit ?UnitType }";
+
+        Query query = QueryFactory.create(queryString);
+
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
+        ArrayList<SensorUnit> sensorsInLocation = new ArrayList<>();
+        for (Iterator iter = results; iter.hasNext(); ) {
+            ResultBinding res = (ResultBinding)iter.next() ;
+            Object sensorName = res.get("SensorName");
+            Object sensorType = res.get("SensorType");
+            Object quantityName = res.get("Quantity");
+            Object unitType = res.get("UnitType");
+
+            Individual quantity = getIndividual(OntologyUri.NETQU, quantityName.toString().split("#")[1]);
+            Property hasQuantityValue = getProperty(OntologyUri.ARIOT, "quantityValue");
+
+            sensorsInLocation.add(new SensorUnit(sensorName.toString().split("#")[1], sensorType.toString().split("#")[1],
+                    quantity.getPropertyValue(hasQuantityValue).asLiteral().getFloat(), unitType.toString().split("#")[1]));
+        }
+        qe.close() ;
+        return sensorsInLocation;
     }
 
 /*

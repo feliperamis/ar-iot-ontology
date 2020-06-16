@@ -123,7 +123,7 @@ public class Device extends Agent {
 
         Individual device = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Device, DeviceName);
         Individual location =  DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, DeviceLocation);
-        Property deviceLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasLocation);
+        Property deviceLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA, ObjectProperty_hasLocation);
         Property deviceCamera = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasCamera);
 
         // A device is in a location

@@ -24,7 +24,9 @@ import jade.lang.acl.UnreadableException;
 import jade.proto.AchieveREResponder;
 import jade.util.Logger;
 import model.Event;
+import model.SensorUnit;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -52,6 +54,7 @@ public class Camara_p3 extends Agent {
     private static final String ObjectProperty_represents = "represents";
     private static final String ObjectProperty_generates = "generates";
     private static final String ObjectProperty_isRenderedIn = "isRenderedIn";
+    private static final String ObjectProperty_hasLocation = "hasLocation";
 
     /* Data properties */
     private static final String DataProperty_objectXValue = "object_XValue";
@@ -90,10 +93,10 @@ public class Camara_p3 extends Agent {
                     logger.warning("Error while reading event from ACL Message");
                 }
                 logger.info("Event to show on camera is: " + eventToShowOnCamera + ", and the one being shown now is: " + eventBeingShown);
-                if (!eventToShowOnCamera.equals(eventBeingShown)) {
+                if (!eventToShowOnCamera.toString().equals(eventBeingShown)) {
                     String eventModelName = EventModelName + UUID.randomUUID();
                     Individual eventModel = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_EventModel, eventModelName);
-                    Individual event = DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, eventToShowOnCamera.getEventName());
+                    Individual event = DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, eventToShowOnCamera.getEventNameLabel());
                     Property eventModelRepresentsEvent = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_represents);
                     eventModel.setPropertyValue(eventModelRepresentsEvent, event);
 
@@ -115,7 +118,7 @@ public class Camara_p3 extends Agent {
 
                     showEventOnDevice(eventToShowOnCamera, eventModelName, position3D, event);
                 } else {
-                    logger.info("Camera keeps showing " + eventBeingShown);
+                    logger.info("Camera keeps showing " + eventToShowOnCamera.getEventNameLabel());
                 }
 
             } else {
@@ -158,7 +161,7 @@ public class Camara_p3 extends Agent {
         MessageTemplate mt = AchieveREResponder.createMessageTemplate((FIPANames.InteractionProtocol.FIPA_REQUEST));
 //        parallelBehaviour.addSubBehaviour(new CamaraResponder(this, mt));
         parallelBehaviour.addSubBehaviour(new CameraResponse());
-        parallelBehaviour.addSubBehaviour(new ChangeLocationBehaviour(this, 2000));
+        parallelBehaviour.addSubBehaviour(new ChangeLocationBehaviour(this, 4000));
 
         this.addBehaviour(parallelBehaviour);
     }
@@ -181,20 +184,26 @@ public class Camara_p3 extends Agent {
         String message = "\nNew EventModel " + eventModelName + " shown in the 3DEnvironment in augmented reality\n";
         message += "\tThis event is called " + eventObject.getEventNameLabel() + " and it's a " + eventObject.getEventNameLabel() + "\n";
 
-        Property cameraPointsTo = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_pointingTo);
-        String location = camera.getPropertyValue(cameraPointsTo).toString().split("#")[1];
+        Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA, ObjectProperty_hasLocation);
+        Individual location = event.getPropertyValue(hasLocation).as(Individual.class);
         Property xValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_objectXValue);
         Property yValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_objectYValue);
         Property zValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_objectZValue);
 
-        message += "\tThis event is live in " + location + " and it's rendered in (" + position3D.getPropertyValue(xValue).asLiteral().getFloat()
+        message += "\tThis event is live in " + location.toString().split("#")[1] + " and it's rendered in (" + position3D.getPropertyValue(xValue).asLiteral().getFloat()
                 + "x, " + position3D.getPropertyValue(yValue).asLiteral().getFloat() + "y, " + position3D.getPropertyValue(zValue).asLiteral().getFloat()
                 + "z) in the AR environment\n";
 
+
+        ArrayList<SensorUnit> sensorUnits = DOMAIN.querySensorUnitForLocation(location.toString().split("#")[1]);
+        if (sensorUnits.isEmpty()) {
+            message += "\t*There are no sensors in this location\n";
+        } else {
+            for (SensorUnit sensor : sensorUnits) {
+                message += "\t*" + sensor + "\n";
+            }
+        }
+
         logger.info(message);
-        /* temperature: */
-        /* noise: */
-        /* number of people: */
-        //factory.getPropertyValue(maximumProduction).asLiteral().getFloat()
     }
 }

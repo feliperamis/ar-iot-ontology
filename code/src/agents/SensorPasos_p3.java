@@ -31,16 +31,19 @@ public class SensorPasos_p3 extends Agent {
     private static final String Entity_Location = "Location";
     private static final String Entity_CrowdSensor = "CrowdSensor";
     private static final String Entity_Coverage = "Coverage";
-    private static final String Entity_Output = "Output";
+    private static final String Entity_Quantity = "QuantityKind";
     private static final String Entity_Quality = "Quality";
     private static final String Entity_Unit = "Unit";
 
     /* Object properties */
-    private static final String ObjectProperty_hasOutput = "hasOutput";
+    private static final String ObjectProperty_hasQuantity = "hasQuantityKind";
     private static final String ObjectProperty_hasCoverage = "hasCoverage";
     private static final String ObjectProperty_hasQuality = "hasQuality";
     private static final String ObjectProperty_hasUnit = "hasUnit";
     private static final String ObjectProperty_hasLocation = "hasLocation";
+
+    /* Data properties */
+    private static final String DataProperty_quantityValue = "quantityValue";
 
 
     /* Individuals */
@@ -49,7 +52,7 @@ public class SensorPasos_p3 extends Agent {
     private static final String CoverageName = "EventHall";
     private static final String OutputName = "CrowdSensorOutput";
     private static final String QualityGrade = "CrowdSensorQuality";
-    private static final String UnitType = "CrowdSensorUnit";
+    private static final String UnitType = "NumberOfPeople";
 
     AID Environment;
 
@@ -61,6 +64,12 @@ public class SensorPasos_p3 extends Agent {
         public void onTick() {
             ACLMessage message = new ACLMessage(ACLMessage.INFORM);
             message.addReceiver(Environment);
+
+            Property hasQuantity = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasQuantity);
+            Property quantityValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_quantityValue);
+            Individual quantity = sensorPasos.getPropertyValue(hasQuantity).as(Individual.class);
+            quantity.setPropertyValue(quantityValue, DOMAIN.createLiteral(Math.abs(new Random().nextFloat() * 50)));
+
             message.setContent(SensorName);
             send(message);
         }
@@ -91,29 +100,29 @@ public class SensorPasos_p3 extends Agent {
         }
 
 
-        SendMessageTickerBehaviour Sensor = new SendMessageTickerBehaviour(this, 10000);
+        SendMessageTickerBehaviour Sensor = new SendMessageTickerBehaviour(this, 7000);
         this.addBehaviour(Sensor);
         this.initSensor();
 
     }
     private void initSensor() {
         sensorPasos = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_CrowdSensor, SensorName);
-
+        logger.info("CrowdSensor generated at " + LocationName);
 //        Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_CrowdSensor, SensorName);
         Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
         Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.IOTLITE, Entity_Coverage, CoverageName);
-        Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.OCLC, Entity_Output, OutputName);
+        Individual quantity = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETQU, Entity_Quantity, OutputName);
         Individual quality = DOMAIN.createIndividual(OntologyDomain.OntologyUri.LOA,Entity_Quality, QualityGrade);
         Individual unit = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETQU,Entity_Unit, UnitType);
 
-        Property hasOutput = DOMAIN.getProperty(OntologyDomain.OntologyUri.OCLC, ObjectProperty_hasOutput);
+        Property hasQuantity = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasQuantity);
         Property hasCoverage = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasCoverage);
         Property hasQuality = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA, ObjectProperty_hasQuality);
         Property hasUnit = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasUnit);
         Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA,ObjectProperty_hasLocation);
 
 
-        sensorPasos.addProperty(hasOutput, output);
+        sensorPasos.addProperty(hasQuantity, quantity);
         sensorPasos.addProperty(hasCoverage, coverage);
         sensorPasos.addProperty(hasQuality, quality);
         sensorPasos.addProperty(hasUnit, unit);
