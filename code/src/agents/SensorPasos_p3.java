@@ -13,6 +13,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +44,7 @@ public class SensorPasos_p3 extends Agent {
 
     /* Individuals */
     private static final String SensorName = "CrowdSensor1";
-    private static final String LocationName = "Place";
+    private static final String LocationName = "Location" + (new Random().nextInt(3) + 1);
     private static final String CoverageName = "EventHall";
     private static final String OutputName = "CrowdSensorOutput";
     private static final String QualityGrade = "CrowdSensorQuality";

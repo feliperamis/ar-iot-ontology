@@ -43,8 +43,9 @@ public class MainContainer {
         final AgentController device = container.createNewAgent("Device", Device.class.getName(), new Object[] {cameraName});
         // TODO: Los sensores crean las unidades con el mismo nombre de individuo (debería tener algo random), y la location
         // mejor usar location1, location2, 3, 4...
-        //final AgentController sensorRuido = container.createNewAgent("SensorRuido", SensorRuido_p3.class.getName(), null);
-        //final AgentController sensorPaso = container.createNewAgent("SensorPaso", SensorPasos_p3.class.getName(), null);
+        final AgentController sensorRuido = container.createNewAgent("SensorRuido", SensorRuido_p3.class.getName(), null);
+        final AgentController sensorPasos = container.createNewAgent("SensorPasos", SensorPasos_p3.class.getName(), null);
+        final AgentController sensorTemperatura = container.createNewAgent("SensorTemperatura", Termometro_p3.class.getName(), null);
 
         sniffer.start();
 
@@ -58,7 +59,8 @@ public class MainContainer {
         environment.start();
         camera.start();
         device.start();
-        //sensorPaso.start();
-        //sensorRuido.start();
+        sensorPasos.start();
+        sensorRuido.start();
+        sensorTemperatura.start();
     }
 }
