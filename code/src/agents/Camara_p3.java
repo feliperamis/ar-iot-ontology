@@ -6,6 +6,7 @@ import com.hp.hpl.jena.rdf.model.Property;
 import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -14,14 +15,16 @@ import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.AchieveREResponder;
+import jade.util.Logger;
 
+import java.util.Random;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Camara_p3 extends Agent {
 
-    private static final Logger logger = Logger.getLogger("Camera");
+    Individual camera;
+    private static final Logger logger = Logger.getJADELogger("Camera");
     private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
 
     /* Entities */
@@ -32,10 +35,10 @@ public class Camara_p3 extends Agent {
     /* Object properties */
 
     private static final String ObjectProperty_cameraRender = "cameraRender";
+    private static final String ObjectProperty_pointingTo = "pointing_to";
 
 
     /* Individuals */
-    private static final String CameraName = "ARDeviceCamera";
     private static final String EnvironmentName = "Camera3DEnvironment";
 
 
@@ -48,8 +51,23 @@ public class Camara_p3 extends Agent {
         protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
             ACLMessage informDone = request.createReply();
             informDone.setPerformative(ACLMessage.INFORM);
+            //TODO: Create model with event model que viene en la request
             informDone.setContent("Possss toy viendo esto ns aver dime tu");
             return informDone;
+        }
+    }
+
+    public class ChangeLocationBehaviour extends TickerBehaviour {
+        public ChangeLocationBehaviour(Agent a, long period) {
+            super(a, period);
+        }
+
+        public void onTick() {
+            Property cameraPointsTo = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_pointingTo);
+            String newLocation = "Location" + (new Random().nextInt(3) + 1);
+            logger.info("Now camera will point to Location: " + newLocation);
+            Individual location = DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, newLocation);
+            camera.setPropertyValue(cameraPointsTo, location);
         }
     }
 
@@ -71,11 +89,15 @@ public class Camara_p3 extends Agent {
         MessageTemplate mt = AchieveREResponder.createMessageTemplate((FIPANames.InteractionProtocol.FIPA_REQUEST));
         this.addBehaviour(new CamaraResponder(this, mt));
         this.initCamera();
+        this.addBehaviour(new ChangeLocationBehaviour(this, 2000));
     }
 
     private void initCamera() {
+        String cameraName = (String) this.getArguments()[0];
         logger.info("Creating camera and a 3d environment");
-        Individual camera = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Camera, CameraName);
+        logger.info("Camera name: " + cameraName);
+
+        camera = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Camera, cameraName);
         Individual environment3D = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_3dEnvironment, EnvironmentName);
         Property cameraRender = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_cameraRender);
 

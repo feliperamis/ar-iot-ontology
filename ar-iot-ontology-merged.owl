@@ -13,6 +13,7 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:terms="http://purl.org/dc/terms/"
      xmlns:iot-lite="http://purl.oclc.org/NET/UNIS/fiware/iot-lite#"
+     xmlns:timeline="http://purl.org/NET/c4dm/timeline.owl#"
      xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology">
         <owl:imports rdf:resource="http://purl.oclc.org/NET/UNIS/fiware/iot-lite#"/>
@@ -59,7 +60,7 @@ above the local reference ellipsoid).</rdfs:comment>
     <!-- http://www.w3.org/2003/01/geo/wgs84_pos#location -->
 
     <owl:AnnotationProperty rdf:about="http://www.w3.org/2003/01/geo/wgs84_pos#location">
-        <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/based_near"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing"/>
     </owl:AnnotationProperty>
     
 
@@ -104,6 +105,16 @@ above the local reference ellipsoid).</rdfs:comment>
 
     <rdf:Description rdf:about="http://purl.org/NET/c4dm/timeline.owl#contains">
         <rdfs:domain rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#City"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.loa-cnr.it/ontologies/DUL.owl#hasLocation -->
+
+    <rdf:Description rdf:about="http://www.loa-cnr.it/ontologies/DUL.owl#hasLocation">
+        <rdfs:domain rdf:resource="http://purl.oclc.org/NET/ssnx/ssn#FeatureOfInterest"/>
+        <rdfs:domain rdf:resource="http://www.loa-cnr.it/ontologies/DUL.owl#PhysicalObject"/>
         <rdfs:range rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
     </rdf:Description>
     
@@ -231,8 +242,8 @@ above the local reference ellipsoid).</rdfs:comment>
     <!-- http://www.w3.org/2003/01/geo/wgs84_pos#location -->
 
     <rdf:Description rdf:about="http://www.w3.org/2003/01/geo/wgs84_pos#location">
+        <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/based_near"/>
         <rdfs:domain rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing"/>
     </rdf:Description>
     
 
@@ -610,6 +621,101 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 </rdfs:comment>
         <rdfs:label>SpatialThing</rdfs:label>
     </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation1">
+        <rdf:type rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#Point"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation2">
+        <rdf:type rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#Point"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation3 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation3">
+        <rdf:type rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#Point"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation4 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation4">
+        <rdf:type rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#Point"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#City1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#City1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#City"/>
+        <timeline:contains rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location1"/>
+        <timeline:contains rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location2"/>
+        <timeline:contains rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location3"/>
+        <timeline:contains rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location4"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
+        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation1"/>
+        <iot-lite:radius rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.6</iot-lite:radius>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
+        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation2"/>
+        <iot-lite:radius rdf:datatype="http://www.w3.org/2001/XMLSchema#double">42.0</iot-lite:radius>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location3 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location3">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
+        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation3"/>
+        <iot-lite:radius rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.3</iot-lite:radius>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location4 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location4">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
+        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation4"/>
+        <iot-lite:radius rdf:datatype="http://www.w3.org/2001/XMLSchema#double">23.23</iot-lite:radius>
+    </owl:NamedIndividual>
     
 
 

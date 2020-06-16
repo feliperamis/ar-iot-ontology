@@ -95,7 +95,7 @@ public class SensorPasos_p3 extends Agent {
 
     }
     private void initSensor() {
-        logger.info("Creating camera and a 3d environment");
+        logger.info("New unit from crowd sensor");
         Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_CrowdSensor, SensorName);
         Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
         Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.IOTLITE, Entity_Coverage, CoverageName);

@@ -1,8 +1,6 @@
 package test;
 
-import agents.Camara_p3;
-import agents.Device;
-import agents.Environment;
+import agents.*;
 import domain.OntologyDomain;
 import domain.OntologyParser;
 import jade.core.Profile;
@@ -37,10 +35,16 @@ public class MainContainer {
         runtime.createMainContainer(new ProfileImpl());
         container = runtime.createAgentContainer(profile);
 
+        String cameraName = "ARDeviceCamera";
+
         final AgentController sniffer = container.createNewAgent("Sniffer", Sniffer.class.getName(), null);
         final AgentController environment = container.createNewAgent("Environment", Environment.class.getName(), null);
-        final AgentController camera = container.createNewAgent("Camera", Camara_p3.class.getName(), null);
-        final AgentController device = container.createNewAgent("Device", Device.class.getName(), null);
+        final AgentController camera = container.createNewAgent("Camera", Camara_p3.class.getName(), new Object[] {cameraName});
+        final AgentController device = container.createNewAgent("Device", Device.class.getName(), new Object[] {cameraName});
+        // TODO: Los sensores crean las unidades con el mismo nombre de individuo (debería tener algo random), y la location
+        // mejor usar location1, location2, 3, 4...
+        //final AgentController sensorRuido = container.createNewAgent("SensorRuido", SensorRuido_p3.class.getName(), null);
+        //final AgentController sensorPaso = container.createNewAgent("SensorPaso", SensorPasos_p3.class.getName(), null);
 
         sniffer.start();
 
@@ -54,5 +58,7 @@ public class MainContainer {
         environment.start();
         camera.start();
         device.start();
+        //sensorPaso.start();
+        //sensorRuido.start();
     }
 }

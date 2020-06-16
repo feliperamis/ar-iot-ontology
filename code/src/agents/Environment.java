@@ -3,6 +3,8 @@
 
 package agents;
 
+import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.rdf.model.Property;
 import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
@@ -16,13 +18,16 @@ import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.AchieveREResponder;
+import jade.util.Logger;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 public class Environment extends Agent {
 
-    private static final Logger LOGGER = Logger.getLogger("Environment");
+    public static final Logger logger = Logger.getJADELogger("Environment");
+    private static final String ObjectProperty_camerapointingTo = "pointing_to";
+
+
 
     private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
 //    private static final int TIME_UNIT = DOMAIN.getTimeUnit();  // Time in s
@@ -153,13 +158,19 @@ public class Environment extends Agent {
         MessageTemplate mt = AchieveREResponder.createMessageTemplate((FIPANames.InteractionProtocol.FIPA_REQUEST));
         final AchieveREResponder informDevice = new AchieveREResponder(this, mt) {
             protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
-                String msg = "";
-                for (String key : sensorData.keySet()) {
-                    msg = msg + '\n' + key + ": " + sensorData.get(key);
-                }
+                /* Get pointing_to Camera */
+                String cameraName = request.getContent();
+                Individual camera = DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, cameraName);
+                Property cameraPointsTo = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_camerapointingTo);
+                String locationThatCameraIsPointing = camera.getPropertyValue(cameraPointsTo).toString().split("#")[1];
+                logger.info("Camera " + cameraName + "is now pointing to " + locationThatCameraIsPointing);
+                /* Is there any feature of interest in that location? */
+                //TODO: Sparql para sacar esto
+                /* If yes then return list */
+
                 ACLMessage informDone = request.createReply();
                 informDone.setPerformative(ACLMessage.INFORM);
-                informDone.setContent(msg);
+                informDone.setContent("");
                 return informDone;
             }
         };
@@ -171,6 +182,6 @@ public class Environment extends Agent {
     @Override
     protected void takeDown() {
         System.out.println("Shutting down environment");
-        DOMAIN.saveOntology();
+        //DOMAIN.saveOntology();
     }
 }
