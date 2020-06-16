@@ -42,7 +42,7 @@ public class MainContainer {
         final AgentController sensorRuido = container.createNewAgent("SensorRuido", SensorRuido_p3.class.getName(), null);
         final AgentController sensorPasos = container.createNewAgent("SensorPasos", SensorPasos_p3.class.getName(), null);
         final AgentController sensorTemperatura = container.createNewAgent("SensorTemperatura", Termometro_p3.class.getName(), null);
-/*
+
         sniffer.start();
 
         try {
@@ -51,7 +51,7 @@ public class MainContainer {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-*/
+
 
         /* We make a sleep between agent start to avoid concurrent modifications on the ontology model */
         try {
