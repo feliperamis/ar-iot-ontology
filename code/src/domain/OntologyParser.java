@@ -23,20 +23,12 @@ public class OntologyParser {
         System.out.println("· Loading Ontology");
         OntDocumentManager dm = model.getDocumentManager();
         dm.addAltEntry("http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology","file:" + PATH_TO_ONTOLOGY);
-        model.read("http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology");
-        /*
-        InputStream ontInputStream = FileManager.get().open(PATH_TO_ONTOLOGY);
         try {
-            if (ontInputStream == null) {
-                System.out.println("No input file Found");
-            } else {
-                //ontInputStream = FileManager.get().open(PATH_TO_ONTOLOGY);
-                model.read(ontInputStream, null);
-            }
-        } catch (Exception e) {
-            logger.warning("Error while reading the ontology: \n " + e.getMessage());
+            model.read("http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology");
+        } catch(Exception e) {
+            logger.warning("Warning while reading the model");
         }
-*/
+
         domain.setModel(model);
         return domain;
     }

@@ -16,4 +16,12 @@ public class Event implements Serializable {
     public String toString() {
         return eventName + "(" + eventType + ")";
     }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
 }

@@ -49,10 +49,6 @@ public class Device extends Agent {
         }
 
         protected void handleInform(ACLMessage inform) {
-            /* TODO: Expects a list of FeatureOfInterest */
-            //If empty, just log
-            //If just one, then send to camera
-            //Else, sleep(), and select one random and send to camera
             try {
                 ArrayList<Event> eventsInLocation = (ArrayList<Event>) inform.getContentObject();
                 logger.info("Events: " + eventsInLocation);
@@ -68,18 +64,16 @@ public class Device extends Agent {
                 } else {
                     //TODO: Wait a DeviceInput(Click) event and show that event
                     /* We make a fake pause simulating an user to decide which event wants to see */
-                    //Thread.sleep(5000);
+                    Thread.sleep(5000);
                     eventToShowOnCamera = eventsInLocation.get(new Random().nextInt(eventsInLocation.size() - 1));
                 }
-                logger.info(eventToShowOnCamera.toString());
-                message.setContent(eventToShowOnCamera.toString());
+                message.setContentObject(eventToShowOnCamera);
                 send(message);
-            } catch (UnreadableException e) {
+            } catch (UnreadableException | InterruptedException e) {
                 logger.warning("Error while serializing list of events");
-            }
-            /*catch (IOException e) {
+            } catch (IOException e) {
                 logger.warning("Error while serializing event to show on camera");
-            }*/
+            }
         }
     }
 
@@ -87,7 +81,6 @@ public class Device extends Agent {
 
     protected void setup() {
         this.logger.info("Dispositivo iniciado");
-        //this.logger.info(DOMAIN.toString());
         AID df = getDefaultDF();
         DFAgentDescription register_template = new DFAgentDescription();
         register_template.setName(getAID());
@@ -147,11 +140,6 @@ public class Device extends Agent {
         }
 
         public void onTick() {
-//            int var1 = (int)(Math.random() * 40.0D) - 10;
-//            ACLMessage var2 = new ACLMessage(7);
-//            //var2.addReceiver(Device.this.Termostat);
-//            var2.setContent(Integer.toString(var1));
-//            Device.this.send(var2);
             logger.info("New tick to request info to environment with camera name " + cameraName);
             ACLMessage request = new ACLMessage(ACLMessage.REQUEST);
             request.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);

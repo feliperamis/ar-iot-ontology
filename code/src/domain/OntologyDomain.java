@@ -2,6 +2,7 @@ package domain;
 
 import com.hp.hpl.jena.ontology.*;
 import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.sparql.core.ResultBinding;
@@ -140,6 +141,10 @@ public class OntologyDomain {
 
 
         return individual;
+    }
+
+    public Literal createLiteral(Object value) {
+        return model.createTypedLiteral(value);
     }
 
     public Individual getIndividual(OntologyUri ontologyUri, String individualName) {

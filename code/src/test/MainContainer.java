@@ -22,13 +22,9 @@ public class MainContainer {
     public static void main(String[] args) throws StaleProxyException {
         try {
             final OntologyDomain domain = OntologyParser.parse();
-            System.out.println(domain.getIndividualsByClass(OntologyDomain.OntologyUri.OCLC, "FeatureOfInterest"));
-
         } catch (URISyntaxException e) {
             System.out.println("Error while parsing ontology");
         }
-        System.out.println("" +
-                "");
         final Profile profile = new ProfileImpl();
         profile.setParameter(Profile.CONTAINER_NAME, "SIDP3-2020");
         profile.setParameter(Profile.GUI, "true");
@@ -56,8 +52,8 @@ public class MainContainer {
             ex.printStackTrace();
         }
 */
-        camera.start();
         environment.start();
+        camera.start();
         device.start();
         //sensorPasos.start();
         //sensorRuido.start();
