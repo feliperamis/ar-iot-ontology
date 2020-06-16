@@ -23,6 +23,8 @@ import java.util.logging.Logger;
  */
 public class Termometro_p3 extends Agent {
 
+    Individual sensorTemperatura;
+
     private static final Logger logger = Logger.getLogger("TemperatureSensor");
     private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
 
@@ -43,7 +45,7 @@ public class Termometro_p3 extends Agent {
 
 
     /* Individuals */
-    private static final String SensorName = "TemperatureSensor1";
+    private static final String SensorName = "SensorTemperatura";
     private static final String LocationName = "Location" + (new Random().nextInt(3) + 1);
     private static final String CoverageName = "EventHall";
     private static final String OutputName = "TemperatureSensorOutput";
@@ -97,8 +99,10 @@ public class Termometro_p3 extends Agent {
     }
 
     private void initSensor() {
-        logger.info("Creating camera and a 3d environment");
-        Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_TemperatureSensor, SensorName);
+
+        sensorTemperatura = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_TemperatureSensor, SensorName);
+
+//        Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_TemperatureSensor, SensorName);
         Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
         Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Coverage, CoverageName);
         Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Output, OutputName);
@@ -112,10 +116,10 @@ public class Termometro_p3 extends Agent {
         Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT,ObjectProperty_hasLocation);
 
 
-        crowdSensor.addProperty(hasOutput, output);
-        crowdSensor.addProperty(hasCoverage, coverage);
-        crowdSensor.addProperty(hasQuality, quality);
-        crowdSensor.addProperty(hasUnit, unit);
-        crowdSensor.addProperty(hasLocation, location);
+        sensorTemperatura.addProperty(hasOutput, output);
+        sensorTemperatura.addProperty(hasCoverage, coverage);
+        sensorTemperatura.addProperty(hasQuality, quality);
+        sensorTemperatura.addProperty(hasUnit, unit);
+        sensorTemperatura.addProperty(hasLocation, location);
     }
 }

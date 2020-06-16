@@ -23,6 +23,8 @@ import java.util.logging.Logger;
  */
 public class SensorRuido_p3 extends Agent {
 
+    Individual sensorRuido;
+
     private static final Logger logger = Logger.getLogger("NoiseSensor");
     private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
 
@@ -43,7 +45,7 @@ public class SensorRuido_p3 extends Agent {
 
 
     /* Individuals */
-    private static final String SensorName = "NoiseSensor1";
+    private static final String SensorName = "SensorRuido";
     private static final String LocationName = "Location" + (new Random().nextInt(3) + 1);
     private static final String CoverageName = "EventHall";
     private static final String OutputName = "NoiseSensorOutput";
@@ -97,8 +99,9 @@ public class SensorRuido_p3 extends Agent {
     }
 
     private void initSensor() {
-        logger.info("New unit from noise sensor");
-        Individual noiseSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_NoiseSensor, SensorName);
+        sensorRuido = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_NoiseSensor, SensorName);
+
+//        Individual noiseSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_NoiseSensor, SensorName);
         Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
         Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.IOTLITE, Entity_Coverage, CoverageName);
         Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETSSN, Entity_Output, OutputName);
@@ -112,10 +115,10 @@ public class SensorRuido_p3 extends Agent {
         Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA,ObjectProperty_hasLocation);
 
 
-        noiseSensor.addProperty(hasOutput, output);
-        noiseSensor.addProperty(hasCoverage, coverage);
-        noiseSensor.addProperty(hasQuality, quality);
-        noiseSensor.addProperty(hasUnit, unit);
-        noiseSensor.addProperty(hasLocation, location);
+        sensorRuido.addProperty(hasOutput, output);
+        sensorRuido.addProperty(hasCoverage, coverage);
+        sensorRuido.addProperty(hasQuality, quality);
+        sensorRuido.addProperty(hasUnit, unit);
+        sensorRuido.addProperty(hasLocation, location);
     }
 }

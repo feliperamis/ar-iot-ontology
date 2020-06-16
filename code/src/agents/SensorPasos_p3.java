@@ -23,6 +23,7 @@ import java.util.logging.Logger;
  */
 public class SensorPasos_p3 extends Agent {
 
+    Individual sensorPasos;
     private static final Logger logger = Logger.getLogger("CrowdSensor");
     private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
 
@@ -43,7 +44,7 @@ public class SensorPasos_p3 extends Agent {
 
 
     /* Individuals */
-    private static final String SensorName = "CrowdSensor1";
+    private static final String SensorName = "SensorPasos";
     private static final String LocationName = "Location" + (new Random().nextInt(3) + 1);
     private static final String CoverageName = "EventHall";
     private static final String OutputName = "CrowdSensorOutput";
@@ -96,8 +97,9 @@ public class SensorPasos_p3 extends Agent {
 
     }
     private void initSensor() {
-        logger.info("New unit from crowd sensor");
-        Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_CrowdSensor, SensorName);
+        sensorPasos = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_CrowdSensor, SensorName);
+
+//        Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_CrowdSensor, SensorName);
         Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
         Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.IOTLITE, Entity_Coverage, CoverageName);
         Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETSSN, Entity_Output, OutputName);
@@ -111,10 +113,10 @@ public class SensorPasos_p3 extends Agent {
         Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA,ObjectProperty_hasLocation);
 
 
-        crowdSensor.addProperty(hasOutput, output);
-        crowdSensor.addProperty(hasCoverage, coverage);
-        crowdSensor.addProperty(hasQuality, quality);
-        crowdSensor.addProperty(hasUnit, unit);
-        crowdSensor.addProperty(hasLocation, location);
+        sensorPasos.addProperty(hasOutput, output);
+        sensorPasos.addProperty(hasCoverage, coverage);
+        sensorPasos.addProperty(hasQuality, quality);
+        sensorPasos.addProperty(hasUnit, unit);
+        sensorPasos.addProperty(hasLocation, location);
     }
 }
