@@ -91,7 +91,8 @@ public class Camara_p3 extends Agent {
                 }
                 logger.info("Event to show on camera is: " + eventToShowOnCamera + ", and the one being shown now is: " + eventBeingShown);
                 if (!eventToShowOnCamera.equals(eventBeingShown)) {
-                    Individual eventModel = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_EventModel, EventModelName + UUID.randomUUID());
+                    String eventModelName = EventModelName + UUID.randomUUID();
+                    Individual eventModel = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_EventModel, eventModelName);
                     Individual event = DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, eventToShowOnCamera.getEventName());
                     Property eventModelRepresentsEvent = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_represents);
                     eventModel.setPropertyValue(eventModelRepresentsEvent, event);
@@ -110,8 +111,9 @@ public class Camara_p3 extends Agent {
                     position3D.setPropertyValue(zValue, DOMAIN.createLiteral(random.nextFloat()));
                     Property renderedIn = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_isRenderedIn);
                     eventModel.setPropertyValue(renderedIn, position3D);
-                    //6. Show log
                     eventBeingShown = eventToShowOnCamera.toString();
+
+                    showEventOnDevice(eventToShowOnCamera, eventModelName, position3D, event);
                 } else {
                     logger.info("Camera keeps showing " + eventBeingShown);
                 }
@@ -175,9 +177,21 @@ public class Camara_p3 extends Agent {
     }
 
 
-    private void showEventOnDevice() {
-        /* Show EventModel which is a concert called Estopa */
-        /* Rendered in (x,y,z) in the camera which is looking to Location 2 */
+    private void showEventOnDevice(Event eventObject, String eventModelName, Individual position3D, Individual event) {
+        String message = "\nNew EventModel " + eventModelName + " shown in the 3DEnvironment in augmented reality\n";
+        message += "\tThis event is called " + eventObject.getEventName() + " and it's a " + eventObject.getEventType() + "\n";
+
+        Property cameraPointsTo = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_pointingTo);
+        String location = camera.getPropertyValue(cameraPointsTo).toString().split("#")[1];
+        Property xValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_objectXValue);
+        Property yValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_objectYValue);
+        Property zValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_objectZValue);
+
+        message += "\tThis event is live in " + location + " and it's rendered in (" + position3D.getPropertyValue(xValue).asLiteral().getFloat()
+                + ", " + position3D.getPropertyValue(yValue).asLiteral().getFloat() + ", " + position3D.getPropertyValue(zValue).asLiteral().getFloat()
+                + ") in the AR environment\n";
+
+
         /* temperature: */
         /* noise: */
         /* number of people: */
