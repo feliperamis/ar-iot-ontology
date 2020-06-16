@@ -2,6 +2,7 @@ package agents;
 
 
 import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.rdf.model.Property;
 import domain.OntologyDomain;
 import jade.core.AID;
@@ -112,7 +113,6 @@ public class SensorRuido_p3 extends Agent {
         Property hasQuality = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA, ObjectProperty_hasQuality);
         Property hasUnit = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasUnit);
         Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA,ObjectProperty_hasLocation);
-
 
         sensorRuido.addProperty(hasOutput, output);
         sensorRuido.addProperty(hasCoverage, coverage);

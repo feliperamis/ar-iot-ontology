@@ -1,14 +1,17 @@
 package agents;
 
 import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.rdf.model.Property;
 import domain.OntologyDomain;
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.NotUnderstoodException;
+import jade.domain.FIPAAgentManagement.RefuseException;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.domain.FIPANames;
@@ -35,12 +38,11 @@ public class Camara_p3 extends Agent {
     /* Object properties */
 
     private static final String ObjectProperty_cameraRender = "cameraRender";
-    private static final String ObjectProperty_pointingTo = "pointing_to";
+    public static final String ObjectProperty_pointingTo = "pointing_to";
 
 
     /* Individuals */
     private static final String EnvironmentName = "Camera3DEnvironment";
-
 
 
     private class CamaraResponder extends AchieveREResponder {
@@ -49,13 +51,35 @@ public class Camara_p3 extends Agent {
         }
 
         protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
+            logger.info("Camara ha recibido");
             ACLMessage informDone = request.createReply();
             informDone.setPerformative(ACLMessage.INFORM);
             //TODO: Create model with event model que viene en la request
+            //Event eventToShowOnCamera = (Event) request.getContentObject();
+            String eventToShowOnCamera = request.getContent();
+            logger.info("Event to show on camera is: " + eventToShowOnCamera);
             informDone.setContent("Possss toy viendo esto ns aver dime tu");
+
             return informDone;
         }
     }
+
+    private class CameraResponse extends CyclicBehaviour {
+        @Override
+        public void action() {
+            ACLMessage message = myAgent.receive();
+            if (message != null) {
+                logger.info("Camara ha recibido");
+                logger.info(message.getContent());
+                //String msg = message.getContent();
+                //AID sender = message.getSender();
+                //String ns = sender.getName();
+                //sensorData.put(ns, msg);
+            } else {
+                block();
+            }
+        }
+    };
 
     public class ChangeLocationBehaviour extends TickerBehaviour {
         public ChangeLocationBehaviour(Agent a, long period) {
@@ -75,7 +99,7 @@ public class Camara_p3 extends Agent {
         AID df = getDefaultDF();
         DFAgentDescription camara = new DFAgentDescription();
         ServiceDescription servicio = new ServiceDescription();
-        servicio.setType("Camara");
+        servicio.setType("Camera");
         servicio.setName(getLocalName());
         camara.addServices(servicio);
         camara.setName(getAID());
@@ -85,10 +109,15 @@ public class Camara_p3 extends Agent {
             Logger.getLogger(Camara_p3.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        MessageTemplate mt = AchieveREResponder.createMessageTemplate((FIPANames.InteractionProtocol.FIPA_REQUEST));
-        this.addBehaviour(new CamaraResponder(this, mt));
+        final ParallelBehaviour parallelBehaviour = new ParallelBehaviour(this, ParallelBehaviour.WHEN_ALL);
         this.initCamera();
-        this.addBehaviour(new ChangeLocationBehaviour(this, 2000));
+
+        MessageTemplate mt = AchieveREResponder.createMessageTemplate((FIPANames.InteractionProtocol.FIPA_REQUEST));
+//        parallelBehaviour.addSubBehaviour(new CamaraResponder(this, mt));
+        parallelBehaviour.addSubBehaviour(new CameraResponse());
+        parallelBehaviour.addSubBehaviour(new ChangeLocationBehaviour(this, 2000));
+
+        this.addBehaviour(parallelBehaviour);
     }
 
     private void initCamera() {

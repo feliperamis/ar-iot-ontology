@@ -12,15 +12,20 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.UnreadableException;
 import jade.proto.AchieveREInitiator;
 import jade.util.Logger;
+import model.Event;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 
 public class Device extends Agent {
 
     AID Environment;
-    AID Camara;
+    AID Camera;
     String cameraName;
 
     private static final OntologyDomain DOMAIN = OntologyDomain.getInstance();
@@ -48,16 +53,37 @@ public class Device extends Agent {
             //If empty, just log
             //If just one, then send to camera
             //Else, sleep(), and select one random and send to camera
-            logger.info(inform.getContent());
-            ACLMessage message = new ACLMessage(ACLMessage.INFORM);
-            message.addReceiver(Camara);
-            message.setContent("Proyectame esta");
-            send(message);
+            try {
+                ArrayList<Event> eventsInLocation = (ArrayList<Event>) inform.getContentObject();
+                logger.info("Events: " + eventsInLocation);
+                if (eventsInLocation.isEmpty()){
+                    logger.info("Not sending anything to camera as there are no events");
+                    return;
+                }
+                ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+                message.addReceiver(Camera);
+                Event eventToShowOnCamera;
+                if (eventsInLocation.size() == 1) {
+                    eventToShowOnCamera = eventsInLocation.get(0);
+                } else {
+                    //TODO: Wait a DeviceInput(Click) event and show that event
+                    /* We make a fake pause simulating an user to decide which event wants to see */
+                    //Thread.sleep(5000);
+                    eventToShowOnCamera = eventsInLocation.get(new Random().nextInt(eventsInLocation.size() - 1));
+                }
+                logger.info(eventToShowOnCamera.toString());
+                message.setContent(eventToShowOnCamera.toString());
+                send(message);
+            } catch (UnreadableException e) {
+                logger.warning("Error while serializing list of events");
+            }
+            /*catch (IOException e) {
+                logger.warning("Error while serializing event to show on camera");
+            }*/
         }
     }
 
     public static final Logger logger = Logger.getJADELogger("Device");
-    //private static final WwtpDomain DOMAIN = WwtpDomain.getInstance();
 
     protected void setup() {
         this.logger.info("Dispositivo iniciado");
@@ -83,17 +109,17 @@ public class Device extends Agent {
         } catch (FIPAException ex) {
             Logger.getLogger(Device.class.getName()).log(Level.SEVERE, null, ex);
         }
-        servicio.setType("Camara");
+        servicio.setType("Camera");
         busca.addServices(servicio);
-        Camara = new AID();
+        Camera = new AID();
         try {
             DFAgentDescription[] result = DFService.search(this, busca);
             if (result.length > 0)
-                Camara = result[0].getName();
+                Camera = result[0].getName();
         } catch (FIPAException ex) {
             Logger.getLogger(Device.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Device.SendMessageTickerBehaviour Dispositivo = new Device.SendMessageTickerBehaviour(this, 10000);
+        Device.SendMessageTickerBehaviour Dispositivo = new Device.SendMessageTickerBehaviour(this, 20000);
         this.addBehaviour(Dispositivo);
         initDevice();
     }

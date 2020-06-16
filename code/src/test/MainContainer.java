@@ -22,6 +22,8 @@ public class MainContainer {
     public static void main(String[] args) throws StaleProxyException {
         try {
             final OntologyDomain domain = OntologyParser.parse();
+            System.out.println(domain.getIndividualsByClass(OntologyDomain.OntologyUri.OCLC, "FeatureOfInterest"));
+
         } catch (URISyntaxException e) {
             System.out.println("Error while parsing ontology");
         }
@@ -36,17 +38,15 @@ public class MainContainer {
         container = runtime.createAgentContainer(profile);
 
         String cameraName = "ARDeviceCamera";
-
         final AgentController sniffer = container.createNewAgent("Sniffer", Sniffer.class.getName(), null);
         final AgentController environment = container.createNewAgent("Environment", Environment.class.getName(), null);
         final AgentController camera = container.createNewAgent("Camera", Camara_p3.class.getName(), new Object[] {cameraName});
         final AgentController device = container.createNewAgent("Device", Device.class.getName(), new Object[] {cameraName});
-        // TODO: Los sensores crean las unidades con el mismo nombre de individuo (debería tener algo random), y la location
-        // mejor usar location1, location2, 3, 4...
-        final AgentController sensorRuido = container.createNewAgent("SensorRuido", SensorRuido_p3.class.getName(), null);
-        final AgentController sensorPasos = container.createNewAgent("SensorPasos", SensorPasos_p3.class.getName(), null);
-        final AgentController sensorTemperatura = container.createNewAgent("SensorTemperatura", Termometro_p3.class.getName(), null);
-
+        // TODO: Los sensores crean las unidades con el mismo nombre de individuo (debería tener algo random)
+        //final AgentController sensorRuido = container.createNewAgent("SensorRuido", SensorRuido_p3.class.getName(), null);
+        //final AgentController sensorPasos = container.createNewAgent("SensorPasos", SensorPasos_p3.class.getName(), null);
+        //final AgentController sensorTemperatura = container.createNewAgent("SensorTemperatura", Termometro_p3.class.getName(), null);
+/*
         sniffer.start();
 
         try {
@@ -55,12 +55,12 @@ public class MainContainer {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
-        environment.start();
+*/
         camera.start();
+        environment.start();
         device.start();
-        sensorPasos.start();
-        sensorRuido.start();
-        sensorTemperatura.start();
+        //sensorPasos.start();
+        //sensorRuido.start();
+        //sensorTemperatura.start();
     }
 }

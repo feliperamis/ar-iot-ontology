@@ -19,13 +19,16 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.AchieveREResponder;
 import jade.util.Logger;
+import model.Event;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Environment extends Agent {
 
     public static final Logger logger = Logger.getJADELogger("Environment");
-    private static final String ObjectProperty_camerapointingTo = "pointing_to";
 
 
 
@@ -161,17 +164,23 @@ public class Environment extends Agent {
                 /* Get pointing_to Camera */
                 String cameraName = request.getContent();
                 Individual camera = DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, cameraName);
-                Property cameraPointsTo = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_camerapointingTo);
+                Property cameraPointsTo = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, Camara_p3.ObjectProperty_pointingTo);
                 String locationThatCameraIsPointing = camera.getPropertyValue(cameraPointsTo).toString().split("#")[1];
                 logger.info("Camera " + cameraName + "is now pointing to " + locationThatCameraIsPointing);
                 /* Is there any feature of interest in that location? */
-                //logger.info(DOMAIN.queryFeatureOfInterestForLocation(locationThatCameraIsPointing));
-                //TODO: Sparql para sacar esto
-                /* If yes then return list */
-
+                ArrayList<Event> eventsInLocation = DOMAIN.queryFeatureOfInterestForLocation(locationThatCameraIsPointing);
                 ACLMessage informDone = request.createReply();
+                if (eventsInLocation.isEmpty()) {
+                    logger.info("There are no events in " + locationThatCameraIsPointing);
+                }
+
                 informDone.setPerformative(ACLMessage.INFORM);
-                informDone.setContent("");
+                try {
+                    informDone.setContentObject(eventsInLocation);
+                } catch (IOException e) {
+                    logger.warning("Error while serializing list of events");
+                }
+
                 return informDone;
             }
         };

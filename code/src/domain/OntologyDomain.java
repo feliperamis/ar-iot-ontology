@@ -5,6 +5,7 @@ import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.sparql.core.ResultBinding;
+import model.Event;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -153,12 +154,17 @@ public class OntologyDomain {
         }
     }
 
-    public String queryFeatureOfInterestForLocation(String locationName) {
-        String queryString = "PREFIX ssn: <" + OntologyUri.NETSSN + "#>"
-                + "PREFIX ariot: <" + OntologyUri.ARIOT + "#>"
-                + "SELECT ?FeatureOfInterest ?Location"
-                + "where {?FeatureOfInterest a ?y. ?y rdfs:subClassOf ariot:FeatureOfInterest."
-                + "?FeatureOfInteres ariot:hasLocation \"" + locationName + "\"}";
+    public ArrayList<Event> queryFeatureOfInterestForLocation(String locationName) {
+        String queryString = "PREFIX ariot: <http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#>\n"
+        + "PREFIX oclc: <http://purl.oclc.org/NET/ssnx/ssn#>\n"
+        + "PREFIX loa: <http://www.loa-cnr.it/ontologies/DUL.owl#>\n"
+        + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+        + "SELECT *\n"
+        + "where {\n"
+        + "?events a ?featuresOfInterest.\n"
+        + "?featuresOfInterest rdfs:subClassOf oclc:FeatureOfInterest.\n"
+        + "?events loa:hasLocation ariot:" + locationName + "}";
+
         //queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#> SELECT ?Pizza ?PizzaBase ?PizzaTopping where {?Pizza a ?y. ?y rdfs:subClassOf pizza:Pizza. ?Pizza pizza:hasBase ?PizzaBase. ?Pizza pizza:hasTopping ?PizzaTopping. ?Pizza pizza:hasPizzaName?PizzaName. FILTER regex(?PizzaName, \"^My\") }";
         //queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#> SELECT ?Pizza ?PizzaBase ?PizzaTopping where {?Pizza a ?y. ?y rdfs:subClassOf pizza:Pizza. ?Pizza pizza:hasBase ?PizzaBase. ?Pizza pizza:hasTopping ?PizzaTopping. ?Pizza pizza:hasPrice ?PizzaPrice. FILTER (?PizzaPrice < 20) }";
 
@@ -166,16 +172,16 @@ public class OntologyDomain {
 
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         ResultSet results = qe.execSelect();
-        String s= "";
 
+        ArrayList<Event> eventsInLocation = new ArrayList<>();
         for (Iterator iter = results; iter.hasNext(); ) {
             ResultBinding res = (ResultBinding)iter.next() ;
-            Object Pizza = res.get("FeaturaOfInterest") ;
-            Object PizzaBase= res.get("Location") ;
-            s += "Pizza = "+ Pizza + " <- hasPizzaBase -> " + PizzaBase;
+            Object eventType = res.get("featuresOfInterest") ;
+            Object eventName= res.get("events") ;
+            eventsInLocation.add(new Event(eventType.toString(), eventName.toString()));
         }
         qe.close() ;
-        return s;
+        return eventsInLocation;
     }
 
 /*

@@ -3,6 +3,7 @@
      xml:base="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:ns="http://creativecommons.org/ns#"
+     xmlns:DUL="http://www.loa-cnr.it/ontologies/DUL.owl#"
      xmlns:ns1="http://www.w3.org/2003/06/sw-vocab-status/ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -60,6 +61,7 @@ above the local reference ellipsoid).</rdfs:comment>
     <!-- http://www.w3.org/2003/01/geo/wgs84_pos#location -->
 
     <owl:AnnotationProperty rdf:about="http://www.w3.org/2003/01/geo/wgs84_pos#location">
+        <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/based_near"/>
         <rdfs:range rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing"/>
     </owl:AnnotationProperty>
     
@@ -242,7 +244,6 @@ above the local reference ellipsoid).</rdfs:comment>
     <!-- http://www.w3.org/2003/01/geo/wgs84_pos#location -->
 
     <rdf:Description rdf:about="http://www.w3.org/2003/01/geo/wgs84_pos#location">
-        <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/based_near"/>
         <rdfs:domain rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
     </rdf:Description>
     
@@ -679,12 +680,30 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
     
 
 
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#ConciertoDavidBisbal -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#ConciertoDavidBisbal">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Concert"/>
+        <DUL:hasLocation rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#ConciertoEstopa -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#ConciertoEstopa">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Concert"/>
+        <DUL:hasLocation rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location2"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location1">
         <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
-        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation1"/>
         <iot-lite:radius rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.6</iot-lite:radius>
+        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation1"/>
     </owl:NamedIndividual>
     
 
@@ -693,8 +712,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location2">
         <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
-        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation2"/>
         <iot-lite:radius rdf:datatype="http://www.w3.org/2001/XMLSchema#double">42.0</iot-lite:radius>
+        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation2"/>
     </owl:NamedIndividual>
     
 
@@ -703,8 +722,8 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location3">
         <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
-        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation3"/>
         <iot-lite:radius rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.3</iot-lite:radius>
+        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation3"/>
     </owl:NamedIndividual>
     
 
@@ -713,8 +732,26 @@ sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location4">
         <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location"/>
-        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation4"/>
         <iot-lite:radius rdf:datatype="http://www.w3.org/2001/XMLSchema#double">23.23</iot-lite:radius>
+        <wgs84_pos:location rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#CenterLocation4"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#PartyIbiza -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#PartyIbiza">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Party"/>
+        <DUL:hasLocation rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location3"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#TedTalkRandom -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#TedTalkRandom">
+        <rdf:type rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Conference"/>
+        <DUL:hasLocation rdf:resource="http://www.semanticweb.org/alvaro/ontologies/2020/4/ar-iot-ontology#Location4"/>
     </owl:NamedIndividual>
     
 
