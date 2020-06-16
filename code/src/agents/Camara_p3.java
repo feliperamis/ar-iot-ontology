@@ -179,7 +179,7 @@ public class Camara_p3 extends Agent {
 
     private void showEventOnDevice(Event eventObject, String eventModelName, Individual position3D, Individual event) {
         String message = "\nNew EventModel " + eventModelName + " shown in the 3DEnvironment in augmented reality\n";
-        message += "\tThis event is called " + eventObject.getEventName() + " and it's a " + eventObject.getEventType() + "\n";
+        message += "\tThis event is called " + eventObject.getEventNameLabel() + " and it's a " + eventObject.getEventNameLabel() + "\n";
 
         Property cameraPointsTo = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_pointingTo);
         String location = camera.getPropertyValue(cameraPointsTo).toString().split("#")[1];
@@ -188,10 +188,10 @@ public class Camara_p3 extends Agent {
         Property zValue = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, DataProperty_objectZValue);
 
         message += "\tThis event is live in " + location + " and it's rendered in (" + position3D.getPropertyValue(xValue).asLiteral().getFloat()
-                + ", " + position3D.getPropertyValue(yValue).asLiteral().getFloat() + ", " + position3D.getPropertyValue(zValue).asLiteral().getFloat()
-                + ") in the AR environment\n";
+                + "x, " + position3D.getPropertyValue(yValue).asLiteral().getFloat() + "y, " + position3D.getPropertyValue(zValue).asLiteral().getFloat()
+                + "z) in the AR environment\n";
 
-
+        logger.info(message);
         /* temperature: */
         /* noise: */
         /* number of people: */

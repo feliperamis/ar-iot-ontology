@@ -24,4 +24,12 @@ public class Event implements Serializable {
     public String getEventName() {
         return eventName;
     }
+
+    public String getEventTypeLabel() {
+        return eventType.split("#")[1];
+    }
+
+    public String getEventNameLabel() {
+        return eventName.split("#")[1];
+    }
 }
