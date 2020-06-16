@@ -1,12 +1,15 @@
 package domain;
 
 import com.hp.hpl.jena.ontology.*;
+import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.core.ResultBinding;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +23,8 @@ public class OntologyDomain {
         WGS84_POS("http://www.w3.org/2003/01/geo/wgs84_pos"),
         NETQU("http://purl.org/NET/ssnx/qu/qu"),
         NETSSN("http://purl.org/NET/ssnx/ssn"),
-        LOA("http://www.load-cnr.it/ontologies/DUL.owl"),
+        OCLC("http://purl.oclc.org/NET/ssnx/ssn"),
+        LOA("http://www.loa-cnr.it/ontologies/DUL.owl"),
         TERMS("http://purl.org/dc/terms"),
         SKOS("http://www.w3.org/2004/02/skos/core"),
         RDFS("http://www.w3.org/2000/01/rdf-schema"),
@@ -149,7 +153,32 @@ public class OntologyDomain {
         }
     }
 
-    /*
+    public String queryFeatureOfInterestForLocation(String locationName) {
+        String queryString = "PREFIX ssn: <" + OntologyUri.NETSSN + "#>"
+                + "PREFIX ariot: <" + OntologyUri.ARIOT + "#>"
+                + "SELECT ?FeatureOfInterest ?Location"
+                + "where {?FeatureOfInterest a ?y. ?y rdfs:subClassOf ariot:FeatureOfInterest."
+                + "?FeatureOfInteres ariot:hasLocation \"" + locationName + "\"}";
+        //queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#> SELECT ?Pizza ?PizzaBase ?PizzaTopping where {?Pizza a ?y. ?y rdfs:subClassOf pizza:Pizza. ?Pizza pizza:hasBase ?PizzaBase. ?Pizza pizza:hasTopping ?PizzaTopping. ?Pizza pizza:hasPizzaName?PizzaName. FILTER regex(?PizzaName, \"^My\") }";
+        //queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#> SELECT ?Pizza ?PizzaBase ?PizzaTopping where {?Pizza a ?y. ?y rdfs:subClassOf pizza:Pizza. ?Pizza pizza:hasBase ?PizzaBase. ?Pizza pizza:hasTopping ?PizzaTopping. ?Pizza pizza:hasPrice ?PizzaPrice. FILTER (?PizzaPrice < 20) }";
+
+        Query query = QueryFactory.create(queryString);
+
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+        String s= "";
+
+        for (Iterator iter = results; iter.hasNext(); ) {
+            ResultBinding res = (ResultBinding)iter.next() ;
+            Object Pizza = res.get("FeaturaOfInterest") ;
+            Object PizzaBase= res.get("Location") ;
+            s += "Pizza = "+ Pizza + " <- hasPizzaBase -> " + PizzaBase;
+        }
+        qe.close() ;
+        return s;
+    }
+
+/*
     Ejemplos sparql
 
     public void runSparqlQueryDataProperty()
@@ -180,38 +209,8 @@ public class OntologyDomain {
     }
 
 
-    public void runSparqlQueryObjectProperty()
-    {
 
-        String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-                + "PREFIX pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#> "
-                + "SELECT ?Pizza ?PizzaBase ?PizzaTopping "
-                + "where {?Pizza a ?y. ?y rdfs:subClassOf pizza:Pizza. "
-                + "?Pizza pizza:hasBase ?PizzaBase. "
-                + "?Pizza pizza:hasTopping ?PizzaTopping. "
-                + "?Pizza pizza:hasPizzaName \"MySuperMarioPizza\"}";
-        //queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#> SELECT ?Pizza ?PizzaBase ?PizzaTopping where {?Pizza a ?y. ?y rdfs:subClassOf pizza:Pizza. ?Pizza pizza:hasBase ?PizzaBase. ?Pizza pizza:hasTopping ?PizzaTopping. ?Pizza pizza:hasPizzaName?PizzaName. FILTER regex(?PizzaName, \"^My\") }";
-        //queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#> SELECT ?Pizza ?PizzaBase ?PizzaTopping where {?Pizza a ?y. ?y rdfs:subClassOf pizza:Pizza. ?Pizza pizza:hasBase ?PizzaBase. ?Pizza pizza:hasTopping ?PizzaTopping. ?Pizza pizza:hasPrice ?PizzaPrice. FILTER (?PizzaPrice < 20) }";
-
-        Query query = QueryFactory.create(queryString);
-
-        QueryExecution qe = QueryExecutionFactory.create(query, model);
-        ResultSet results = qe.execSelect();
-
-        for ( Iterator iter = results ; iter.hasNext() ; )
-        {
-            ResultBinding res = (ResultBinding)iter.next() ;
-            Object Pizza = res.get("Pizza") ;
-            Object PizzaBase= res.get("PizzaBase") ;
-            Object PizzaTopping= res.get("PizzaTopping") ;
-            System.out.println("Pizza = "+ Pizza + " <- hasPizzaBase -> " + PizzaBase);
-            System.out.println("Pizza = "+ Pizza +  " <- hasPizzaTopping -> " + PizzaTopping) ;
-        }
-        qe.close() ;
-    }
-
-    public void runSparqlQueryModify()
-    {
+    public void runSparqlQueryModify() {
 
         String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
                 + "PREFIX pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#> "

@@ -165,6 +165,7 @@ public class Environment extends Agent {
                 String locationThatCameraIsPointing = camera.getPropertyValue(cameraPointsTo).toString().split("#")[1];
                 logger.info("Camera " + cameraName + "is now pointing to " + locationThatCameraIsPointing);
                 /* Is there any feature of interest in that location? */
+                //logger.info(DOMAIN.queryFeatureOfInterestForLocation(locationThatCameraIsPointing));
                 //TODO: Sparql para sacar esto
                 /* If yes then return list */
 

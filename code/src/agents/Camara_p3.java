@@ -65,7 +65,6 @@ public class Camara_p3 extends Agent {
         public void onTick() {
             Property cameraPointsTo = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_pointingTo);
             String newLocation = "Location" + (new Random().nextInt(3) + 1);
-            logger.info("Now camera will point to Location: " + newLocation);
             Individual location = DOMAIN.getIndividual(OntologyDomain.OntologyUri.ARIOT, newLocation);
             camera.setPropertyValue(cameraPointsTo, location);
         }

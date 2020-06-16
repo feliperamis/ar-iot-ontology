@@ -46,7 +46,7 @@ public class Termometro_p3 extends Agent {
 
     /* Individuals */
     private static final String SensorName = "SensorTemperatura";
-    private static final String LocationName = "Location" + (new Random().nextInt(3) + 1);
+    private final String LocationName = "Location" + (new Random().nextInt(3) + 1);
     private static final String CoverageName = "EventHall";
     private static final String OutputName = "TemperatureSensorOutput";
     private static final String QualityGrade = "TemperatureSensorQuality";
@@ -102,19 +102,17 @@ public class Termometro_p3 extends Agent {
 
         sensorTemperatura = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_TemperatureSensor, SensorName);
 
-//        Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_TemperatureSensor, SensorName);
         Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
-        Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Coverage, CoverageName);
-        Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Output, OutputName);
-        Individual quality = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT,Entity_Quality, QualityGrade);
-        Individual unit = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT,Entity_Unit, UnitType);
+        Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.IOTLITE, Entity_Coverage, CoverageName);
+        Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.OCLC, Entity_Output, OutputName);
+        Individual quality = DOMAIN.createIndividual(OntologyDomain.OntologyUri.LOA,Entity_Quality, QualityGrade);
+        Individual unit = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETQU,Entity_Unit, UnitType);
 
-        Property hasOutput = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasOutput);
-        Property hasCoverage = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasCoverage);
-        Property hasQuality = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasQuality);
-        Property hasUnit = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT, ObjectProperty_hasUnit);
-        Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.ARIOT,ObjectProperty_hasLocation);
-
+        Property hasOutput = DOMAIN.getProperty(OntologyDomain.OntologyUri.OCLC, ObjectProperty_hasOutput);
+        Property hasCoverage = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasCoverage);
+        Property hasQuality = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA, ObjectProperty_hasQuality);
+        Property hasUnit = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasUnit);
+        Property hasLocation = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA,ObjectProperty_hasLocation);
 
         sensorTemperatura.addProperty(hasOutput, output);
         sensorTemperatura.addProperty(hasCoverage, coverage);

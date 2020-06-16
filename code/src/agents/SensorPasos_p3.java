@@ -45,7 +45,7 @@ public class SensorPasos_p3 extends Agent {
 
     /* Individuals */
     private static final String SensorName = "SensorPasos";
-    private static final String LocationName = "Location" + (new Random().nextInt(3) + 1);
+    private final String LocationName = "Location" + (new Random().nextInt(3) + 1);
     private static final String CoverageName = "EventHall";
     private static final String OutputName = "CrowdSensorOutput";
     private static final String QualityGrade = "CrowdSensorQuality";
@@ -102,11 +102,11 @@ public class SensorPasos_p3 extends Agent {
 //        Individual crowdSensor = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_CrowdSensor, SensorName);
         Individual location = DOMAIN.createIndividual(OntologyDomain.OntologyUri.ARIOT, Entity_Location, LocationName);
         Individual coverage = DOMAIN.createIndividual(OntologyDomain.OntologyUri.IOTLITE, Entity_Coverage, CoverageName);
-        Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETSSN, Entity_Output, OutputName);
+        Individual output = DOMAIN.createIndividual(OntologyDomain.OntologyUri.OCLC, Entity_Output, OutputName);
         Individual quality = DOMAIN.createIndividual(OntologyDomain.OntologyUri.LOA,Entity_Quality, QualityGrade);
         Individual unit = DOMAIN.createIndividual(OntologyDomain.OntologyUri.NETQU,Entity_Unit, UnitType);
 
-        Property hasOutput = DOMAIN.getProperty(OntologyDomain.OntologyUri.NETSSN, ObjectProperty_hasOutput);
+        Property hasOutput = DOMAIN.getProperty(OntologyDomain.OntologyUri.OCLC, ObjectProperty_hasOutput);
         Property hasCoverage = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasCoverage);
         Property hasQuality = DOMAIN.getProperty(OntologyDomain.OntologyUri.LOA, ObjectProperty_hasQuality);
         Property hasUnit = DOMAIN.getProperty(OntologyDomain.OntologyUri.IOTLITE, ObjectProperty_hasUnit);
